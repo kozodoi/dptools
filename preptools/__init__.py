@@ -1,7 +1,10 @@
-from .add_date_features import add_date_features
-from .add_text_features import add_text_features
-from .aggregate_data import aggregate_data
-from .count_missings import count_missings
-from .fill_missings import fill_missings
-from .label_encoding import label_encoding
-from .print_factor_levels import print_factor_levels
+from .aggregation import aggregate_data
+
+from .feature_engineering import add_date_features
+from .feature_engineering import add_text_features
+
+from .treat_factors import print_factor_levels
+from .treat_factors import label_encoding
+
+from .treat_missings import print_missings
+from .treat_missings import fill_missings
