@@ -6,7 +6,7 @@
 
 def add_date_features(df, date_var, drop = True, time = False):
     '''
-    Adds date-based features based to the data frame.
+    Adds basic date-based features based to the data frame.
 
     --------------------
     Arguments:

@@ -6,7 +6,7 @@
 
 def print_factor_levels(df, top = 5):
     '''
-    Print levels of categorical features.
+    Prints levels of categorical features.
     
     --------------------
     Arguments:

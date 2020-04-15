@@ -11,7 +11,7 @@ def add_text_features(df,
                       rare_words = 10,
                       drop = True):
     '''
-    Add basic text-based features including word count, character count and 
+    Adds basic text-based features including word count, character count and 
     TF-IDF based features to the data frame.
 
     --------------------
