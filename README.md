@@ -15,9 +15,9 @@ The package currently features the following functions:
 - `add_text_features()`: adds basic text-based features 
 - `aggregate_data()`: aggregates data by a certain feature
 - `count_missings()`: counts missing values and prints the results
-- `fill_missings()`: replaces missings with specific values.
+- `fill_missings()`: replaces missings with specific values
 - `label_encoding()`: performs label encoding on partitioned data
-- `print_factor_levels()`: prints levels of categorical features.
+- `print_factor_levels()`: prints levels of categorical features
 
 ## Examples
 
@@ -25,4 +25,4 @@ The package currently features the following functions:
 
 ## Issues, questions
 
-In case you need help or advice on fairness metrics or you want to report an issue, please do so in a reproducible example at the [GitHub page](https://github.com/kozodoi/prep_tools/issues).
+In case you need help or advice on the included data preprocseeing functions or you want to report an issue, please do so in a reproducible example at the corresponding [GitHub page](https://github.com/kozodoi/prep_tools/issues).
