@@ -1,3 +1,8 @@
+# system files
+*.DS_Store*
 *__pycache__*
 *.ipynb_checkpoints*
-*.DS_Store*
+
+# package files
+/dist
+/dptools.egg-info
