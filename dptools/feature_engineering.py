@@ -63,12 +63,13 @@ def add_date_features(df, date_var, drop = True, time = False):
 
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
+import scipy.sparse
 
 def add_text_features(df, 
                       string_vars, 
                       tf_idf_feats = 5, 
-                      common_words = 10,
-                      rare_words = 10,
+                      common_words = 0,
+                      rare_words = 0,
                       drop = True):
     '''
     Adds basic text-based features including word count, character count and 
@@ -95,7 +96,7 @@ def add_text_features(df,
         ### TEXT PREPROCESSING
 
         # replace NaN with empty string
-        df[var][pd.isnull(df[var])] = ''
+        df[var].fillna('', inplace = True)
 
         # remove common and rare words
         freq = pd.Series(' '.join(df[var]).split()).value_counts()[:common_words]
@@ -130,7 +131,7 @@ def add_text_features(df,
 
         # compute TF-IDF
         vals = tfidf.fit_transform(df[var])
-        vals = pd.SparsedfFrame(vals)
+        vals = pd.DataFrame.sparse.from_spmatrix(vals)
         vals.columns = [var + '_tfidf_' + str(p) for p in vals.columns]
         df = pd.concat([df, vals], axis = 1)
 
