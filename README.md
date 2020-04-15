@@ -5,7 +5,7 @@ The datatools python package provides helper functions for data preprocessing.
 You can install the package by running:
 
 ```
-pip install datatools
+pip install preptools
 ```
 
 ## Description
@@ -27,4 +27,4 @@ The package currently features the following functions:
 
 ## Issues, questions
 
-In case you need help or advice on fairness metrics or you want to report an issue, please do so in a reproducible example at the [fairness GitHub](https://github.com/kozodoi/Data_Tools/issues) page.
+In case you need help or advice on fairness metrics or you want to report an issue, please do so in a reproducible example at the [preptools GitHub](https://github.com/kozodoi/prep_tools/issues) page.
