@@ -102,7 +102,7 @@ df_new = add_text_features(df, string_vars = ['income'])
 ```
 
 | age | height | gender | income_word_count | income_char_count | income_tfidf_0 | income_tfidf_1 | income_tfidf_2 | income_tfidf_3 |
-|---:| ---:| ---:| ---:| |---:| ---:| ---:| ---:| ---:|
+|---:| ---:| ---:| ---:| | ---:| ---:| ---:| ---:| ---:|
 | 27.0 | 170 | female | 1 | 4 | 1.0 | 0.0 | 0.0 | 0.0 |
 | NaN | 168 | male | 1 | 6 | 0.0 | 0.0 | 0.0 | 1.0 |
 | 30.0 | 173 | NaN | 1 | 3 | 0.0 | 0.0 | 1.0 | 0.0 |
