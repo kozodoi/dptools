@@ -7,7 +7,7 @@ setup(name = 'dptools',
       author_email = 'n.kozodoi@icloud.com',
       url = 'https://github.com/kozodoi/dptools',
       packages = ['dptools'],
-      install_requires = ['numpy', 'pandas', 'sklearn'],
+      install_requires = ['numpy', 'pandas', 'sklearn', 'scipy'],
       license = 'MIT',
       zip_safe = False
      )
