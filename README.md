@@ -17,19 +17,16 @@ The `dptools` python package provides helper functions to simplify common data p
 ## Installation
 
 The latest stable release can be installed from PyPI:
-
 ```
 pip install dptools
 ```
 
 You may also install the development version from Github:
-
-```py
+```
 pip install git+https://github.com/kozodoi/dptools.git
 ```
 
 After the installation, you can import the included functions:
-
 ```py
 from dptools import *
 ```
@@ -49,10 +46,10 @@ The package currently features the following functions:
 
 ## Examples
 
-This section contains just a few examples of using functions from `dptools`.
+This section contains a few examples of using functions from `dptools` for different data preprocessing tasks.
 
 
-### Create a toy data set
+### Creating a toy data set
 
 First, let us create a toy data frame to demonstarte the package functionality.
 
@@ -78,8 +75,8 @@ df = pd.DataFrame(data)
 
 ### Working with missings
 
-Printing statistics on missing values:
-```
+```py
+# print statistics on missing values
 from dptools import print_missings
 print_missings(df)
 ```
@@ -90,8 +87,9 @@ print_missings(df)
 
 ### Aggregating features
 
-Aggregating the data:
-```
+
+```py
+# aggregating the data
 from dptools import aggregate_data
 df_new = aggregate_data(df, group_var = 'gender', num_stats = ['mean', 'max'])
 ```
@@ -102,13 +100,15 @@ df_new = aggregate_data(df, group_var = 'gender', num_stats = ['mean', 'max'])
 
 ### Feature engineering
 
-Creating text-based features:
-```
+```py
+# creating text-based features
 from dptools import add_text_features
 df_new = add_text_features(df, string_vars = ['income'])
 ```
-| age | height | gender | income_word_count | income_char_count | income_tfidf_0 | income_tfidf_1 | income_tfidf_2 | income_tfidf_3 | 
+
+| age | height | gender | income_word_count | income_char_count | income_tfidf_0 | income_tfidf_1 | income_tfidf_2 | income_tfidf_3 |
 |---:| ---:| ---:| ---:| |---:| ---:| ---:| ---:| ---:|
+
 | 27.0 | 170 | female | 1 | 4 | 1.0 | 0.0 | 0.0 | 0.0 |
 | NaN | 168 | male | medium | 1 | 6 | 0.0 | 0.0 | 0.0 | 1.0 |
 | 30.0 | 173 | NaN | low | 1 | 3 | 0.0 | 0.0 | 1.0 | 0.0 |
