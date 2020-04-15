@@ -40,6 +40,7 @@ After the installation, you can import the included functions:
 from dptools import *
 ```
 
+
 ## Examples
 
 This section contains a few examples of using functions from `dptools` for different data preprocessing tasks.
@@ -69,6 +70,7 @@ df = pd.DataFrame(data)
 | 25.0 | 177 | male | low |
 | NaN | 165 | female | no income |
 
+
 ### Working with missings
 
 ```py
@@ -81,6 +83,7 @@ print_missings(df)
 | age | 2 | 0.4 |
 | gender | 1 | 0.2 |
 
+
 ### Aggregating features
 
 ```py
@@ -91,7 +94,8 @@ df_new = aggregate_data(df, group_var = 'gender', num_stats = ['mean', 'max'])
 | gender | age_mean | age_max | height_mean | height_max | income_count | income_mode |
 |---:| ---:| ---:| ---:| ---:| ---:| ---:|     
 | female | 27.0 | 27.0 | 167.5 | 170 | 2 | 0 |
-| male | 25.0 | 25.0 | 172.5 | 177 | 2 | 1|
+| male | 25.0 | 25.0 | 172.5 | 177 | 2 | 1 |
+
 
 ### Feature engineering
 
@@ -106,7 +110,8 @@ df_new = add_text_features(df, string_vars = ['income'])
 | NaN | 168 | male | 1 | 6 | 0.0 | ... | 1.0 | 
 | 30.0 | 173 | NaN | 1 | 3 | 0.0 | ... | 0.0 | 
 | 25.0 | 177 | male | 1 | 3 | 0.0 | ... | 0.0 | 
-| NaN | 165 | female | 2 | 9 | 0.0 | ... | 0.0 | 
+| NaN | 165 | female | 2 | 9 | 0.0 | ... | 0.0 |
+
 
 ## Dependencies
 
