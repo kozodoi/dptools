@@ -1,6 +1,6 @@
 # Package overview
 
-The datatools python package provides helper functions for data preprocessing.
+The `preptools` python package provides helper functions to simplify common data preprocessing tasks, including feature engineering, working with missing values, aggregating data and more.
 
 You can install the package by running:
 
@@ -9,8 +9,6 @@ pip install preptools
 ```
 
 ## Description
-
-This package contains functions to simplify common data preprocessing operations such as feature engineering, working with missing values, aggregating data and more. 
 
 The package currently features the following functions:
 - `add_date_features()`: adds date-based features
@@ -27,4 +25,4 @@ The package currently features the following functions:
 
 ## Issues, questions
 
-In case you need help or advice on fairness metrics or you want to report an issue, please do so in a reproducible example at the [preptools GitHub](https://github.com/kozodoi/prep_tools/issues) page.
+In case you need help or advice on fairness metrics or you want to report an issue, please do so in a reproducible example at the [GitHub page](https://github.com/kozodoi/prep_tools/issues).
