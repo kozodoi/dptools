@@ -24,13 +24,13 @@ pip install dptools
 
 You may also install the development version from Github:
 
-```
+```py
 pip install git+https://github.com/kozodoi/dptools.git
 ```
 
 After the installation, you can import the included functions:
 
-```
+```py
 from dptools import *
 ```
 
@@ -49,9 +49,11 @@ The package currently features the following functions:
 
 ## Examples
 
+### Create toy data set
+
 First, let us create a toy data frame to demonstarte functionality of `dptools`.
 
-```
+```py
 # import dependecies
 import pandas as pd
 import numpy as np
@@ -63,31 +65,53 @@ data = {'age': [27, np.nan, 30, 25, np.nan],
         'income': ['high', 'medium', 'low', 'low', 'no income']}
 df = pd.DataFrame(data)
 ```
-|age | height | gender | income |
+| age | height | gender | income |
 |---:| ---:| ---:| ---:|   
 | 27.0 | 170 | female | high |
-| NaN | 170 | female | high |
-| 30.0 | 170 | female | high |
-| 25.0 | 170 | female | high |
-| NaN | 170 | female | high |
+| NaN | 168 | male | medium |
+| 30.0 | 173 | NaN | low |
+| 25.0 | 177 | male | low |
+| NaN | 165 | female | no income |
+
+### Work with missings
 
 Printing statistics on missing values:
 ```
 from dptools import print_missings
 print_missings(df)
 ```
+| | Total | Percent | 
+|---:| ---:| ---:|
+| age | 2 | 0.4 |
+| gender | 1 | 0.2 |
+
+### Data aggregation
 
 Aggregating the data:
 ```
 from dptools import aggregate_data
 df_new = aggregate_data(df, group_var = 'gender', num_stats = ['mean', 'max'])
 ```
+| gender | age_mean | age_max | height_mean | height_max | income_count | income_mode |
+|---:| ---:| ---:| ---:| ---:| ---:| ---:|     
+| female | 27.0 | 27.0 | 167.5 | 170 | 2 | 0 |
+| male | 25.0 | 25.0 | 172.5 | 177 | 2 | 1|
+
+### Feature engineering
 
 Creating text-based features:
 ```
 from dptools import add_text_features
 df_new = add_text_features(df, string_vars = ['income'])
 ```
+| age | height | gender | income_word_count | income_char_count | income_tfidf_0 | income_tfidf_1 | income_tfidf_2 | income_tfidf_3 | 
+|---:| ---:| ---:| ---:|   
+| 27.0 | 170 | female | 1 | 4 | 1.0 | 0.0 | 0.0 | 0.0 |
+| NaN | 168 | male | medium | 1 | 6 | 0.0 | 0.0 | 0.0 | 1.0 |
+| 30.0 | 173 | NaN | low | 1 | 3 | 0.0 | 0.0 | 1.0 | 0.0 |
+| 25.0 | 177 | male | low | 1 | 3 | 0.0 | 0.0 | 1.0 | 0.0 |
+| NaN | 165 | female | no income | 2 | 9 | 0.0 | 1.0 | 0.0 | 0.0 |
+
 
 ## Dependencies
 
