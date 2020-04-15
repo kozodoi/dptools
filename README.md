@@ -1,6 +1,21 @@
-# Package overview
+# dptools: data preprocessing functions for Python
+
+---
+
+[![PyPI Latest Release](https://img.shields.io/pypi/v/dptools.svg)](https://pypi.org/project/dptools/)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)[![License](https://img.shields.io/pypi/l/pandas.svg)](https://github.com/pandas-dev/pandas/blob/master/LICENSE)
+[![Licence](https://img.shields.io/github/license/mashape/apistatus.svg)](http://choosealicense.com/licenses/mit/)
+[![Downloads](https://img.shields.io/pypi/dm/pandas)](https://pypi.org/project/dptools/)
+
+---
+
+## Overview
 
 The `dptools` python package provides helper functions to simplify common data preprocessing tasks, including feature engineering, working with missing values, aggregating data and more.
+
+## Installation
+
+The source code is currently hosted on GitHub at: https://github.com/kozodoi/dptools
 
 You can install the package by running:
 
@@ -8,7 +23,13 @@ You can install the package by running:
 pip install dptools
 ```
 
-## Description
+## Dependencies
+
+- [numpy](https://www.numpy.org)
+- [pandas](https://pandas.pydata.org/)
+- [sklearn](https://scikit-learn.org)
+
+## Features
 
 The package currently features the following functions:
 - `add_date_features()`: adds date-based features
@@ -21,7 +42,7 @@ The package currently features the following functions:
 
 ## Examples
 
-
+TBA
 
 ## Issues, questions
 
