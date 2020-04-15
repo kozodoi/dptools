@@ -13,6 +13,15 @@
 
 The `dptools` python package provides helper functions to simplify common data preprocessing tasks, including feature engineering, working with missing values, aggregating data and more.
 
+The package currently features the following functions:
+- `add_date_features()`: adds date-based features
+- `add_text_features()`: adds text-based features 
+- `aggregate_data()`: adds aggregation-based features
+- `fill_missings()`: replaces missings with specific values
+- `print_missings()`: counts missing values and prints the results
+- `label_encoding()`: performs label encoding on partitioned data
+- `print_factor_levels()`: prints levels of categorical features
+
 
 ## Installation
 
@@ -30,19 +39,6 @@ After the installation, you can import the included functions:
 ```py
 from dptools import *
 ```
-
-
-## Features
-
-The package currently features the following functions:
-- `add_date_features()`: adds date-based features
-- `add_text_features()`: adds basic text-based features 
-- `aggregate_data()`: aggregates data by a certain feature
-- `fill_missings()`: replaces missings with specific values
-- `print_missings()`: counts missing values and prints the results
-- `label_encoding()`: performs label encoding on partitioned data
-- `print_factor_levels()`: prints levels of categorical features
-
 
 ## Examples
 
@@ -87,7 +83,6 @@ print_missings(df)
 
 ### Aggregating features
 
-
 ```py
 # aggregating the data
 from dptools import aggregate_data
@@ -108,12 +103,11 @@ df_new = add_text_features(df, string_vars = ['income'])
 
 | age | height | gender | income_word_count | income_char_count | income_tfidf_0 | income_tfidf_1 | income_tfidf_2 | income_tfidf_3 |
 |---:| ---:| ---:| ---:| |---:| ---:| ---:| ---:| ---:|
-
 | 27.0 | 170 | female | 1 | 4 | 1.0 | 0.0 | 0.0 | 0.0 |
-| NaN | 168 | male | medium | 1 | 6 | 0.0 | 0.0 | 0.0 | 1.0 |
-| 30.0 | 173 | NaN | low | 1 | 3 | 0.0 | 0.0 | 1.0 | 0.0 |
-| 25.0 | 177 | male | low | 1 | 3 | 0.0 | 0.0 | 1.0 | 0.0 |
-| NaN | 165 | female | no income | 2 | 9 | 0.0 | 1.0 | 0.0 | 0.0 |
+| NaN | 168 | male | 1 | 6 | 0.0 | 0.0 | 0.0 | 1.0 |
+| 30.0 | 173 | NaN | 1 | 3 | 0.0 | 0.0 | 1.0 | 0.0 |
+| 25.0 | 177 | male | 1 | 3 | 0.0 | 0.0 | 1.0 | 0.0 |
+| NaN | 165 | female | 2 | 9 | 0.0 | 1.0 | 0.0 | 0.0 |
 
 
 ## Dependencies
