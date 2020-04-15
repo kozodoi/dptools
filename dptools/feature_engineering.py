@@ -21,6 +21,7 @@ def add_date_features(df, date_var, drop = True, time = False):
     --------------------
     Returns:
     - pandas DF with new features
+
     '''
     
     fld = df[date_var]
@@ -87,6 +88,24 @@ def add_text_features(df,
     --------------------
     Returns:
     - pandas DF with new features
+
+    --------------------
+    Examples:
+
+    # import dependecies
+    import pandas as pd
+    import numpy as np
+
+    # create data frame
+    data = {'age': [27, np.nan, 30, 25, np.nan], 
+        'height': [170, 168, 173, 177, 165], 
+        'gender': ['female', 'male', np.nan, 'male', 'female'],
+        'income': ['high', 'medium', 'low', 'low', 'no income']}
+    df = pd.DataFrame(data)
+
+    # add text features
+    from dptools import add_text_features
+    df_new = add_text_features(df, string_vars = ['income', 'gender])
     '''
 
     ##### PROCESSING LOOP

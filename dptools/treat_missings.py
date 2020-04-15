@@ -17,6 +17,24 @@ def print_missings(df):
     --------------------
     Returns:
     - None
+
+    --------------------
+    Examples:
+
+    # import dependecies
+    import pandas as pd
+    import numpy as np
+
+    # create data frame
+    data = {'age': [27, np.nan, 30, 25, np.nan], 
+        'height': [170, 168, 173, 177, 165], 
+        'gender': ['female', 'male', np.nan, 'male', 'female'],
+        'income': ['high', 'medium', 'low', 'low', 'no income']}
+    df = pd.DataFrame(data)
+
+    # count missings
+    from dptools import print_missings
+    print_missings(df)
     '''
 
     total = df.isnull().sum().sort_values(ascending = False)

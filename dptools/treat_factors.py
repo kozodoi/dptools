@@ -63,6 +63,24 @@ def print_factor_levels(df, top = 5):
     --------------------
     Returns
     - tables with factor levels
+
+    --------------------
+    Examples:
+
+    # import dependecies
+    import pandas as pd
+    import numpy as np
+
+    # create data frame
+    data = {'age': [27, np.nan, 30, 25, np.nan], 
+        'height': [170, 168, 173, 177, 165], 
+        'gender': ['female', 'male', np.nan, 'male', 'female'],
+        'income': ['high', 'medium', 'low', 'low', 'no income']}
+    df = pd.DataFrame(data)
+
+    # print factor levels
+    from dptools import print_factors
+    print_factors(df, top = 3)
     '''
 
     facs = [f for f in df.columns if df[f].dtype == 'object']
