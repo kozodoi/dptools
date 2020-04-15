@@ -1,4 +1,4 @@
-# Overview of the datatools python package
+# Package overview
 
 The datatools python package provides helper functions for data preprocessing.
 
