@@ -4,6 +4,8 @@
 #                             
 ###############################
 
+import pandas as pd
+
 def aggregate_data(df, 
                    group_var, 
                    num_stats = ['mean', 'sum'], 

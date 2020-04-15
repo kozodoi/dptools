@@ -4,6 +4,9 @@
 #                             
 ###############################
 
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+
 def label_encoding(df_train, df_valid, df_test):
     '''
     Performs label encoding of categorical features for the data set partitioned

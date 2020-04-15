@@ -4,6 +4,9 @@
 #                             
 ###############################
 
+import numpy as np
+import pandas as pd
+
 def add_date_features(df, date_var, drop = True, time = False):
     '''
     Adds basic date-based features based to the data frame.

@@ -4,6 +4,9 @@
 #                             
 ###############################
 
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
+
 def add_text_features(df, 
                       string_vars, 
                       tf_idf_feats = 5, 

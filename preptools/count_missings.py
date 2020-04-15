@@ -4,6 +4,8 @@
 #                             
 ###############################
 
+import pandas as pd
+
 def count_missings(df):
     '''
     Counts missing values in a dataframe and prints the results.

@@ -4,6 +4,8 @@
 #                             
 ###############################
 
+import pandas as pd
+
 def print_factor_levels(df, top = 5):
     '''
     Prints levels of categorical features.

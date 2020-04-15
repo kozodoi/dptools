@@ -4,6 +4,9 @@
 #                             
 ###############################
 
+import numpy as np
+import pandas as pd
+
 def fill_na(df, to_na_cols, to_0_cols, to_true_cols, to_false_cols):
     '''
     Replaces NA in the dataset with specific values.
