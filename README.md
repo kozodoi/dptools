@@ -49,9 +49,12 @@ The package currently features the following functions:
 
 ## Examples
 
-### Create toy data set
+This section contains just a few examples of using functions from `dptools`.
 
-First, let us create a toy data frame to demonstarte functionality of `dptools`.
+
+### Create a toy data set
+
+First, let us create a toy data frame to demonstarte the package functionality.
 
 ```py
 # import dependecies
@@ -73,7 +76,7 @@ df = pd.DataFrame(data)
 | 25.0 | 177 | male | low |
 | NaN | 165 | female | no income |
 
-### Work with missings
+### Working with missings
 
 Printing statistics on missing values:
 ```
@@ -85,7 +88,7 @@ print_missings(df)
 | age | 2 | 0.4 |
 | gender | 1 | 0.2 |
 
-### Data aggregation
+### Aggregating features
 
 Aggregating the data:
 ```
@@ -105,7 +108,7 @@ from dptools import add_text_features
 df_new = add_text_features(df, string_vars = ['income'])
 ```
 | age | height | gender | income_word_count | income_char_count | income_tfidf_0 | income_tfidf_1 | income_tfidf_2 | income_tfidf_3 | 
-|---:| ---:| ---:| ---:|   
+|---:| ---:| ---:| ---:| |---:| ---:| ---:| ---:| ---:|
 | 27.0 | 170 | female | 1 | 4 | 1.0 | 0.0 | 0.0 | 0.0 |
 | NaN | 168 | male | medium | 1 | 6 | 0.0 | 0.0 | 0.0 | 1.0 |
 | 30.0 | 173 | NaN | low | 1 | 3 | 0.0 | 0.0 | 1.0 | 0.0 |
@@ -115,9 +118,7 @@ df_new = add_text_features(df, string_vars = ['income'])
 
 ## Dependencies
 
-Dptools supports Python 3.6+. 
-
-Installation requires the following packages:
+Installation requires Python 3.6+ and the following packages:
 - [numpy](https://www.numpy.org)
 - [pandas](https://pandas.pydata.org)
 - [sklearn](https://scikit-learn.org)
