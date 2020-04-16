@@ -16,7 +16,7 @@ def print_missings(df):
 
     --------------------
     Returns:
-    - None
+    - pandas DF with missing values
 
     --------------------
     Examples:
@@ -37,13 +37,16 @@ def print_missings(df):
     print_missings(df)
     '''
 
+    # count missing values
     total = df.isnull().sum().sort_values(ascending = False)
     percent = (df.isnull().sum() / df.isnull().count()).sort_values(ascending = False)
     table = pd.concat([total, percent], axis = 1, keys = ['Total', 'Percent'])
     table = table[table['Total'] > 0]
 
+    # return results
     if len(table) > 0:
-        return table
+        print('Found {} features with missing values.'.format(len(table)))
+        return table 
     else:
         print('No missing values found.')
 
@@ -76,6 +79,7 @@ def fill_missings(df, to_na_cols, to_0_cols, to_true_cols, to_false_cols):
     - pandas DF with treated features
     '''
     
+    # fill missings
     df[to_na_cols]    = df[to_na_cols].fillna('Unknown')
     df[to_0_cols]     = df[to_0_cols].fillna(0)
     df[to_true_cols]  = df[to_true_cols].fillna(True)

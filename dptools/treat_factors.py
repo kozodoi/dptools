@@ -53,7 +53,7 @@ import pandas as pd
 
 def print_factor_levels(df, top = 5):
     '''
-    Prints levels of categorical features.
+    Prints levels of categorical features in the dataset.
     
     --------------------
     Arguments:
@@ -62,7 +62,7 @@ def print_factor_levels(df, top = 5):
 
     --------------------
     Returns
-    - tables with factor levels
+    - None
 
     --------------------
     Examples:
@@ -83,12 +83,19 @@ def print_factor_levels(df, top = 5):
     print_factors(df, top = 3)
     '''
 
+    # find factors
     facs = [f for f in df.columns if df[f].dtype == 'object']
     
-    for fac in facs:
-        print('-' * 30)
-        print(fac + ': ' + str(df[fac].nunique()) + ' unique values')
-        print('-' * 30)
-        print(df[fac].value_counts(normalize = True, dropna = False).head(top))
-        print('-' * 30)
+    # print results
+    if len(facs) > 0:
+        print('Found {} categorical features.'.format(len(facs)))
         print('')
+        for fac in facs:
+            print('-' * 30)
+            print(fac + ': ' + str(df[fac].nunique()) + ' unique values')
+            print('-' * 30)
+            print(df[fac].value_counts(normalize = True, dropna = False).head(top))
+            print('-' * 30)
+            print('')
+    else:
+        print('Found no categorical features.')
