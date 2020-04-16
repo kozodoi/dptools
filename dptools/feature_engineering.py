@@ -82,7 +82,7 @@ def add_date_features(df, date_vars, drop = True, time = False):
             df.drop(date_var, axis = 1, inplace = True)
 
     # return results
-    print('Added {} date-based features.'.format(df.shape[1] - n_feats))
+    print('Added {} date-based features.'.format(df.shape[1] - n_feats + int(drop) * len(date_vars)))
     return df
 
 
@@ -188,5 +188,80 @@ def add_text_features(df,
             df.drop(text_var, axis = 1, inplace = True)
         
     # return results
-    print('Added {} text-based features.'.format(df.shape[1] - n_feats))
+    print('Added {} text-based features.'.format(df.shape[1] - n_feats + int(drop) * len(text_vars)))
+    return df
+
+
+
+###############################
+#                             
+#     SPLIT NESTED FEATURES
+#                             
+###############################
+
+import pandas as pd
+
+def split_features(df, 
+                   split_vars, 
+                   sep,
+                   drop = True):
+    '''
+    Splits a nested string column into multiple features using a specified 
+    separator and appends the creates features to the data frame.
+
+    --------------------
+    Arguments:
+    - df (pandas DF): dataset
+    - split_vars (list): list of string features to be split
+    - sep (str): separator to split features
+    - drop (bool): whether to drop the original features after split
+
+    --------------------
+    Returns:
+    - pandas DF with new features
+
+    --------------------
+    Examples:
+
+    # import dependecies
+    import pandas as pd
+    import numpy as np
+
+    # create data frame
+    data = {'age': [27, np.nan, 30, 25, np.nan], 
+        'height': [170, 168, 173, 177, 165], 
+        'income': ['high,100', 'medium,50', 'low,25', 'low,28', 'no income,0']}
+    df = pd.DataFrame(data)
+
+    # split nested features
+    from dptools import split_features
+    df_new = split_features(df, split_vars = 'income', sep = ',')
+    '''
+
+    # store no. features
+    n_feats = df.shape[1]
+
+    # convert to list
+    if not isinstance(split_vars, list):
+        split_vars = [split_vars]
+
+    # feature engineering loop
+    for split_var in split_vars:
+        
+        # count maximum values
+        max_values = int(df[split_var].str.count(sep).max() + 1)
+        new_vars = [split_var + '_' + str(val) for val in range(max_values)]
+        
+        # remove original feature
+        if drop:
+            cols_without_split = [col for col in df.columns if col not in split_var]
+        else:
+            cols_without_split = [col for col in df.columns]
+            
+        # split feature
+        df = pd.concat([df[cols_without_split], df[split_var].str.split(sep, expand = True)], axis = 1)
+        df.columns = cols_without_split + new_vars
+        
+    # return results
+    print('Added {} split-based features.'.format(df.shape[1] - n_feats + int(drop) * len(split_vars)))
     return df
