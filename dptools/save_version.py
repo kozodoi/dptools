@@ -7,7 +7,7 @@
 from os import path
 import pandas as pd
 
-def save_csv_version(path, df, min_version = 1, **args):
+def save_csv_version(file_path, df, min_version = 1, **args):
     '''
     Saves pandas DF as a csv file with an automatically assigned version number 
     to prevent overwriting the existing file. If no file with the same name 
@@ -18,7 +18,7 @@ def save_csv_version(path, df, min_version = 1, **args):
 
     --------------------
     Arguments:
-    - path (str): file path including the file name
+    - file_path (str): file path including the file name
     - df (pandas DF): dataset
     - min_version (int): minimum version number
     - **args: further arguments to pass to pd.to_csv() function
@@ -53,18 +53,18 @@ def save_csv_version(path, df, min_version = 1, **args):
     is_version_present = True
 
     # update name
-    path_version = path.replace('.csv', ('_v' + str(version) + '.csv'))
+    file_path_version = file_path.replace('.csv', ('_v' + str(version) + '.csv'))
     
     # export loop
     while is_version_present:
 
         # update file name
         version += 1
-        path_version = path.replace('.csv', ('_v' + str(version) + '.csv'))
+        file_path_version = file_path.replace('.csv', ('_v' + str(version) + '.csv'))
 
         # check for a file with the same name
-        is_version_present = os.path.isfile(path_version)
+        is_version_present = path.isfile(file_path_version)
 
     # save file
-    df.to_csv(path_version, **args)
-    print('Saved as ' + path_version)
+    df.to_csv(file_path_version, **args)
+    print('Saved as ' + file_path_version)
