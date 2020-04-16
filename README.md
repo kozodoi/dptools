@@ -18,6 +18,7 @@ The package currently encompasses the following functions:
     - `add_date_features()`: adds date-based features
     - `add_text_features()`: adds text-based features 
     - `aggregate_data()`: adds aggregation-based features
+    - `split_features()`: splits features nested in a single column
 - Data processing:
     - `find_constant_features()`: finds features with a single unique value
     - `print_factor_levels()`: prints levels of categorical features
@@ -25,6 +26,9 @@ The package currently encompasses the following functions:
 - Working with missings:
     - `print_missings()`: counts missing values and prints the results
     - `fill_missings()`: replaces missings with specific values
+- Version control:
+    - `save_csv_version()`: saves CSV with an automatically assigned version number to prevent overwriting
+
 
 
 ## Installation
@@ -115,6 +119,18 @@ print_missings(df)
 |---:| ---:| ---:|
 | age | 2 | 0.4 |
 | gender | 1 | 0.2 |
+
+
+### Version control
+
+```py
+# first call saves df as 'data_v1.csv'
+from dptools import save_csv_version
+save_csv_version('data.csv', df, index = False)
+
+# second call saves df as 'data_v2.csv' as data_v1.csv already exists
+save_csv_version('data.csv', df, index = False)
+```
 
 
 ## Dependencies
