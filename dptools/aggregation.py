@@ -9,6 +9,7 @@ import pandas as pd
 def aggregate_data(df, 
                    group_var, 
                    num_stats = ['mean', 'sum'], 
+                   fac_stats = ['count', 'mode'],
                    factors = None, 
                    var_label = None, 
                    sd_zeros = False):
@@ -22,7 +23,8 @@ def aggregate_data(df,
     Arguments:
     - df (pandas DF): dataset
     - group_var (str): grouping feature
-    - num_stats (list): list of stats for aggregating numric features
+    - num_stats (list): list of stats for aggregating numeric features
+    - fac_stats (list): list of stats for aggregating categorical features
     - factors (list): list of categorical features names
     - var_label (str): prefix for feature names after aggregation
     - sd_zeros (bool): whether to replace NA with 0 for standard deviation
@@ -47,7 +49,8 @@ def aggregate_data(df,
 
     # aggregate the data
     from dptools import aggregate_data
-    df_new = aggregate_data(df, group_var = 'gender', num_stats = ['min', 'max])
+    df_new = aggregate_data(df, group_var = 'gender', num_stats = ['min', 'max'], fac_stats = 'mode')   
+
     '''
     
     ##### SEPARATE FEATURES
@@ -72,28 +75,29 @@ def aggregate_data(df,
         fac_df = df[df_factors] 
     
     # display info
-    num_facs = fac_df.shape[1] - 1
-    num_nums = num_df.shape[1] - 1
-    print('- Extracted %.0f factors and %.0f numerics...' % (num_facs, num_nums))
+    n_facs = fac_df.shape[1] - 1
+    n_nums = num_df.shape[1] - 1
+    print('- Extracted %.0f factors and %.0f numerics...' % (n_facs, n_nums))
     
 
     ##### AGGREGATION
  
     # aggregate numerics
-    if (num_nums > 0):
+    if n_nums > 0:
         print('- Aggregating numeric features...')
         num_df = num_df.groupby([group_var]).agg(num_stats)
         num_df.columns = ['_'.join(col).strip() for col in num_df.columns.values]
         num_df = num_df.sort_index()
 
     # aggregate factors
-    if (num_facs > 0):
+    if n_facs > 0:
         print('- Aggregating factor features...')
-        fac_int_df = fac_df.copy()
-        for var in factors:
-            fac_int_df[var], _ = pd.factorize(fac_int_df[var])
-        fac_int_df[group_var] = fac_df[group_var]
-        fac_df = fac_int_df.groupby([group_var]).agg([('count'), ('mode', lambda x: pd.Series.mode(x)[0])])
+        if (fac_stats == ['count', 'mode']) or (fac_stats == ['mode', 'count']):
+            fac_df = fac_df.groupby([group_var]).agg([('count'), ('mode', lambda x: pd.Series.mode(x)[0])])
+        if (fac_stats == 'count') or (fac_stats == ['count']):
+            fac_df = fac_df.groupby([group_var]).agg([('count')])
+        if (fac_stats == 'mode') or (fac_stats == ['mode']):
+            fac_df = fac_df.groupby([group_var]).agg([('mode', lambda x: pd.Series.mode(x)[0])])
         fac_df.columns = ['_'.join(col).strip() for col in fac_df.columns.values]
         fac_df = fac_df.sort_index()           
 
@@ -101,15 +105,15 @@ def aggregate_data(df,
     ##### MERGER
 
     # merge numerics and factors
-    if ((num_facs > 0) & (num_nums > 0)):
+    if ((n_facs > 0) & (n_nums > 0)):
         agg_df = pd.concat([num_df, fac_df], axis = 1)
     
     # use factors only
-    if ((num_facs > 0) & (num_nums == 0)):
+    if ((n_facs > 0) & (n_nums == 0)):
         agg_df = fac_df
         
     # use numerics only
-    if ((num_facs == 0) & (num_nums > 0)):
+    if ((n_facs == 0) & (n_nums > 0)):
         agg_df = num_df
         
 
