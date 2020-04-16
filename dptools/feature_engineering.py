@@ -6,8 +6,9 @@
 
 import numpy as np
 import pandas as pd
+import re
 
-def add_date_features(df, date_var, drop = True, time = False):
+def add_date_features(df, date_vars, drop = True, time = False):
     '''
     Adds basic date-based features based to the data frame.
 
@@ -21,37 +22,67 @@ def add_date_features(df, date_var, drop = True, time = False):
     --------------------
     Returns:
     - pandas DF with new features
+    
+    --------------------
+    Examples:
+    
+    # create data frame
+    data = {'age': [27, np.nan, 30], 
+        'height': [170, 168, 173], 
+        'gender': ['female', 'male', np.nan],
+        'date_of_birth': [np.datetime64('1993-02-10'), np.nan, np.datetime64('1990-04-08')]}
+    df = pd.DataFrame(data)
+
+    # add date features
+    from dptools import add_date_features
+    df_new = add_date_features(df, date_vars = 'date_of_birth')
 
     '''
     
-    fld = df[date_var]
-    fld_dtype = fld.dtype
-    
-    if isinstance(fld_dtype, pd.core.dtypes.dtypes.DatetimeTZDtype):
-        fld_dtype = np.datetime64
+    # store no. features
+    n_feats = df.shape[1]
 
-    if not np.issubdtype(fld_dtype, np.datetime64):
-        df[date_var] = fld = pd.to_datetime(fld, infer_datetime_format=True)
+    # convert to list
+    if not isinstance(date_vars, list):
+        date_vars = [date_vars]
+
+    # feature engineering loop
+    for date_var in date_vars:
+
+        var = df[date_var]
+        var_dtype = var.dtype
         
-    targ_pre = re.sub('[Dd]ate$', '', date_var)
+        if isinstance(var_dtype, pd.core.dtypes.dtypes.DatetimeTZDtype):
+            var_dtype = np.datetime64
 
-    attr = ['Year', 'Month', 'Week', 'Day', 
-            'Dayofweek', 'Dayofyear',
-            'Is_month_end', 'Is_month_start', 
-            'Is_quarter_end', 'Is_quarter_start', 
-            'Is_year_end', 'Is_year_start']
-    
-    if time: 
-        attr = attr + ['Hour', 'Minute', 'Second']
+        if not np.issubdtype(var_dtype, np.datetime64):
+            df[date_var] = var = pd.to_datetime(var, infer_datetime_format = True)
+            
+        targ_pre = re.sub('[Dd]ate$', '', date_var)
+
+        # list of day attributes
+        attributes = ['year', 'month', 'week', 'day', 
+                      'dayofweek', 'dayofyear',
+                      'is_month_end', 'is_month_start', 
+                      'is_quarter_end', 'is_quarter_start', 
+                      'is_year_end', 'is_year_start']
         
-    for n in attr: 
-        df[targ_pre + n] = getattr(fld.dt, n.lower())
+        # list of time attributes
+        if time: 
+            attributes = attributes + ['Hour', 'Minute', 'Second']
+            
+        # compute features
+        for att in attributes: 
+            df[targ_pre + '_' + att.lower()] = getattr(var.dt, att)
 
-    df[targ_pre + 'Elapsed'] = fld.astype(np.int64) // 10 ** 9
-    
-    if drop: 
-        df.drop(date_var, axis = 1, inplace = True)
+        df[targ_pre + '_elapsed'] = var.astype(np.int64) // 10 ** 9
+        
+        # remove original feature
+        if drop: 
+            df.drop(date_var, axis = 1, inplace = True)
 
+    # return results
+    print('Added {} date-based features.'.format(df.shape[1] - n_feats))
     return df
 
 
@@ -67,7 +98,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 import scipy.sparse
 
 def add_text_features(df, 
-                      string_vars, 
+                      text_vars, 
                       tf_idf_feats = 5, 
                       common_words = 0,
                       rare_words = 0,
@@ -79,7 +110,7 @@ def add_text_features(df,
     --------------------
     Arguments:
     - df (pandas DF): dataset
-    - string_vars (list): list of textual features
+    - text_vars (list): list of textual features
     - tf_idf_feats (int): number of TF-IDF based features
     - common_words (int): number of the most common words to remove for TF-IDF
     - rare_words (int): number of the most rare words to remove for TF-IDF
@@ -105,40 +136,38 @@ def add_text_features(df,
 
     # add text features
     from dptools import add_text_features
-    df_new = add_text_features(df, string_vars = ['income', 'gender])
+    df_new = add_text_features(df, text_vars = ['income', 'gender'])
     '''
 
-    ##### PROCESSING LOOP
-    for var in string_vars:
+    # store no. features
+    n_feats = df.shape[1]
 
+    # convert to list
+    if not isinstance(text_vars, list):
+        text_vars = [text_vars]
 
-        ### TEXT PREPROCESSING
+    # feature engineering loop
+    for text_var in text_vars:
 
-        # replace NaN with empty string
-        df[var].fillna('', inplace = True)
+        # replace NA with empty string
+        df[text_var].fillna('', inplace = True)
 
         # remove common and rare words
-        freq = pd.Series(' '.join(df[var]).split()).value_counts()[:common_words]
-        freq = pd.Series(' '.join(df[var]).split()).value_counts()[-rare_words:]
+        freq = pd.Series(' '.join(df[text_var]).split()).value_counts()[:common_words]
+        freq = pd.Series(' '.join(df[text_var]).split()).value_counts()[-rare_words:]
 
         # convert to lowercase 
-        df[var] = df[var].apply(lambda x: ' '.join(x.lower() for x in x.split())) 
+        df[text_var] = df[text_var].apply(lambda x: ' '.join(x.lower() for x in x.split())) 
 
         # remove punctuation
-        df[var] = df[var].str.replace('[^\w\s]','')         
-
-
-        ### COMPUTE BASIC FEATURES
+        df[text_var] = df[text_var].str.replace('[^\w\s]','')         
 
         # word count
-        df[var + '_word_count'] = df[var].apply(lambda x: len(str(x).split(' ')))
-        df[var + '_word_count'][df[var] == ''] = 0
+        df[text_var + '_word_count'] = df[text_var].apply(lambda x: len(str(x).split(' ')))
+        df[text_var + '_word_count'][df[text_var] == ''] = 0
 
         # character count
-        df[var + '_char_count'] = df[var].str.len().fillna(0).astype('int64')
-
-
-        ### COMPUTE TF-IDF FEATURES
+        df[text_var + '_char_count'] = df[text_var].str.len().fillna(0).astype('int64')
 
         # import vectorizer
         tfidf  = TfidfVectorizer(max_features = tf_idf_feats, 
@@ -149,20 +178,15 @@ def add_text_features(df,
                                  ngram_range  = (1, 1))
 
         # compute TF-IDF
-        vals = tfidf.fit_transform(df[var])
+        vals = tfidf.fit_transform(df[text_var])
         vals = pd.DataFrame.sparse.from_spmatrix(vals)
-        vals.columns = [var + '_tfidf_' + str(p) for p in vals.columns]
+        vals.columns = [text_var + '_tfidf_' + str(p) for p in vals.columns]
         df = pd.concat([df, vals], axis = 1)
 
-
-        ### CORRECTIONS
-
-        # remove raw text
-        if drop == True:
-            del df[var]
-
-        # print dimensions
-        print(df.shape)
+        # remove original feature
+        if drop:
+            df.drop(text_var, axis = 1, inplace = True)
         
-    # return df
+    # return results
+    print('Added {} text-based features.'.format(df.shape[1] - n_feats))
     return df
