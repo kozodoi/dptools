@@ -18,6 +18,23 @@ def find_constant_features(df, dropna = False):
     --------------------
     Returns:
     - list of constant features
+
+    --------------------
+    Examples:
+
+    # import dependecies
+    import pandas as pd
+    import numpy as np
+
+    # create data frame
+    data = {'age': [27, np.nan, 30, 25, np.nan], 
+        'height': [170, 168, 173, 177, 165], 
+        'gender': ['female', 'female', 'female, 'female', 'female']}
+    df = pd.DataFrame(data)
+
+    # check constant features
+    from dptools import find_constant_features
+    find_constant_features(df)
     '''
     
     # find constant features
