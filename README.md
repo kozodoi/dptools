@@ -11,23 +11,20 @@
 
 ## Overview
 
-The `dptools` python package provides helper functions to simplify common data preprocessing tasks, including feature engineering, working with missing values, aggregating data and more.
+The `dptools` python package provides helper functions to simplify common data preprocessing tasks, including feature engineering, working with missing values, aggregating data and more. 
 
-The package currently features the following functions:
-
-Feature engineering:
-- `add_date_features()`: adds date-based features
-- `add_text_features()`: adds text-based features 
-- `aggregate_data()`: adds aggregation-based features
-
-Data processing:
-- `find_constant_features()`: finds features with a single unique value
-- `print_factor_levels()`: prints levels of categorical features
-- `label_encoding()`: performs label encoding on partitioned data
-
-Working with missings:
-- `print_missings()`: counts missing values and prints the results
-- `fill_missings()`: replaces missings with specific values
+The package currently encompasses the following functions:
+- Feature engineering:
+    - `add_date_features()`: adds date-based features
+    - `add_text_features()`: adds text-based features 
+    - `aggregate_data()`: adds aggregation-based features
+- Data processing:
+    - `find_constant_features()`: finds features with a single unique value
+    - `print_factor_levels()`: prints levels of categorical features
+    - `label_encoding()`: performs label encoding on partitioned data
+- Working with missings:
+    - `print_missings()`: counts missing values and prints the results
+    - `fill_missings()`: replaces missings with specific values
 
 
 ## Installation
