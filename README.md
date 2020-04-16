@@ -121,7 +121,7 @@ print_missings(df)
 | gender | 1 | 0.2 |
 
 
-### Version control
+### Data versioning
 
 ```py
 # first call saves df as 'data_v1.csv'
