@@ -120,7 +120,7 @@ def aggregate_data(df,
         agg_df.columns = [var_label + '_' + str(col) for col in agg_df.columns]
     
     # impute zeros for SD
-    if (sd_zeros == True):
+    if sd_zeros:
         stdevs = agg_df.filter(like = '_std').columns
         for var in stdevs:
             agg_df[var].fillna(0, inplace = True)
