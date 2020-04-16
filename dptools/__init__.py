@@ -8,3 +8,5 @@ from .treat_factors import label_encoding
 
 from .treat_missings import print_missings
 from .treat_missings import fill_missings
+
+from .treat_constants import find_constant_features
