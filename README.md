@@ -135,7 +135,7 @@ save_csv_version('data.csv', df, index = False)
 
 ## Dependencies
 
-Installation requires Python 3.6+ and the following packages:
+Installation requires Python 3.7+ and the following packages:
 - [numpy](https://www.numpy.org)
 - [pandas](https://pandas.pydata.org)
 - [sklearn](https://scikit-learn.org)
