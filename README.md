@@ -5,6 +5,7 @@
 [![PyPI Latest Release](https://img.shields.io/pypi/v/dptools.svg)](https://pypi.org/project/dptools/)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![Licence](https://img.shields.io/github/license/mashape/apistatus.svg)](http://choosealicense.com/licenses/mit/)
+[![Build Status](https://travis-ci.org/kozodoi/dptools.svg?branch=master)](https://travis-ci.com/kozodoi/dptools)
 [![Downloads](https://img.shields.io/pypi/dm/dptools)](https://pypi.org/project/dptools/)
 
 ---
