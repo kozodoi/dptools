@@ -13,23 +13,25 @@
 
 ## Overview
 
-The `dptools` python package provides helper functions to simplify common data preprocessing tasks, including feature engineering, working with missing values, aggregating data and more. 
+The `dptools` python package provides helper functions to simplify common data processing tasks in a data science pipeline, including feature engineering, data aggregation, working with missing values and more.
 
 The package currently encompasses the following functions:
 - Feature engineering:
-    - `add_date_features()`: adds date-based features
-    - `add_text_features()`: adds text-based features 
-    - `aggregate_data()`: aggreagates data and adds aggregation-based features
-    - `encode_factors()`: performs label or dummy encoding of categorical features
+    - `add_date_features()`: add date-based features
+    - `add_text_features()`: add text-based features 
+    - `aggregate_data()`: aggreagate data and adds aggregation-based features
+    - `encode_factors()`: perform label or dummy encoding of categorical features
 - Data processing:
-    - `split_nested_features()`: splits features nested in a single column
-    - `fill_missings()`: replaces missings with specific values
-    - `print_missings()`: prints information on features with missing values
-    - `print_factor_levels()`: prints levels of categorical features
-    - `find_constant_features()`: finds features with a single unique value
+    - `split_nested_features()`: split features nested in a single column
+    - `fill_missings()`: replace missings with specific values
+    - `print_missings()`: print information on features with missing values
+    - `print_factor_levels()`: print levels of categorical features
+- Data cleaning:
+    - `find_correlated_features()`: find features with a high pairwise correlation
+    - `find_constant_features()`: find features with a single unique value
 - Import and versioning:
-    - `read_csv_with_json()`: reads CSV with columns in JSON format
-    - `save_csv_version()`: saves CSV with an automatically assigned version number to prevent overwriting
+    - `read_csv_with_json()`: read CSV with columns in JSON format
+    - `save_csv_version()`: save CSV with an automatically assigned version number to prevent overwriting
     
 
 ## Installation
