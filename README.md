@@ -124,6 +124,17 @@ print_missings(df)
 | gender | 1 | 0.2 |
 
 
+### Finding correlated features
+
+```py
+# displays one correlated feature from each pair
+from dptools import find_correlated_features
+feats = find_correlated_features(df, cutoff = 0.4, method = 'spearman')
+feats
+```
+> Found 1 correlated features.
+> ['age']
+
 ### Data versioning
 
 ```py
