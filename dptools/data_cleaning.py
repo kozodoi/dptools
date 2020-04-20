@@ -57,6 +57,7 @@ def find_constant_features(df, dropna = False):
 ###############################
 
 import pandas as pd
+import numpy as np
 
 def find_correlated_features(df, cutoff = 0.9, method = 'pearson'):
     '''
@@ -85,7 +86,7 @@ def find_correlated_features(df, cutoff = 0.9, method = 'pearson'):
         'gender': ['female', 'female', 'female', 'female', 'female']}
     df = pd.DataFrame(data)
 
-    # check constant features
+    # check correlated features
     from dptools import find_correlated_features
     find_correlated_features(df, cutoff = 0.8, method = 'spearman')
     '''
