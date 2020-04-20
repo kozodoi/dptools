@@ -7,7 +7,7 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(name = 'dptools',
-      version = '0.3.2',
+      version = '0.3.3',
       description = 'Data Preprocessing Tools',
       long_description = long_description,
       long_description_content_type = 'text/markdown',
