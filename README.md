@@ -20,7 +20,7 @@ The package currently encompasses the following functions:
     - `add_date_features()`: adds date-based features
     - `add_text_features()`: adds text-based features 
     - `aggregate_data()`: adds aggregation-based features
-    - `encode_factors()`: performs label or dummy encoding on partitioned data
+    - `encode_factors()`: performs label or dummy encoding of factor features
 - Data processing:
     - `split_nested_features()`: splits features nested in a single column
     - `print_factor_levels()`: prints levels of categorical features

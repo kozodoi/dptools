@@ -338,37 +338,46 @@ def aggregate_data(df,
 ###############################
 
 import pandas as pd
-from sklearn.preprocessing import LabelEncoder
 
-def encode_factors(df_train, df_valid, df_test):
+def encode_factors(df, method = 'label'):
     '''
-    Performs label encoding of categorical features for the data set partitioned
-    into three samples: training, validation and test. The values that do not
-    appear in the training sample are set to missings.
+    Performs encoding of categorical features using label or dummy encoding.
 
     --------------------
     Arguments:
-    - df_train (pandas DF): training sample
-    - df_valid (pandas DF): validation sample
-    - df_test (pandas DF): test sample
+    - df (pandas DF): pandas DF
+    - method (str): encoding method ('label' or 'dummy')
 
     --------------------
     Returns:
-    - encoded pandas DF with the training sample
-    - encoded pandas DF with the validation sample
-    - encoded pandas DF with the test sample
+    - pandas DF with encoded factors
+
+    --------------------
+    Examples:
+
+    # import dependecies
+    import pandas as pd
+    import numpy as np
+
+    # create data frame
+    data = {'age': [27, np.nan, 30, 25, np.nan], 
+        'gender': ['female', 'female', 'male', 'female', 'male'],
+        'income': ['high', 'medium', 'low', 'low', 'no income']}
+    df = pd.DataFrame(data)
+
+    # encode factors
+    from dptools import encode_factors
+    df_enc = encode_factors(df, method = 'label')
     '''
     
-    # list of factors
-    factors = [f for f in df_train.columns if df_train[f].dtype == 'object' or df_valid[f].dtype == 'object' or df_test[f].dtype == 'object']
-    
-    lbl = LabelEncoder()
-
     # label encoding
-    for f in factors:        
-        lbl.fit(list(df_train[f].values) + list(df_valid[f].values) + list(df_test[f].values))
-        df_train[f] = lbl.transform(list(df_train[f].values))
-        df_valid[f] = lbl.transform(list(df_valid[f].values))
-        df_test[f]  = lbl.transform(list(df_test[f].values))
+    if method == 'label':
+        factors = [f for f in df.columns if df[f].dtype == 'object']
+        for var in factors:
+            df[var], _ = pd.factorize(df[var])
+        
+    # dummy encoding
+    if method == 'dummy':
+        df = pd.get_dummies(df, drop_first = True)
 
-    return df_train, df_valid, df_test
+    return df
