@@ -20,15 +20,15 @@ The package currently encompasses the following functions:
     - `add_date_features()`: adds date-based features
     - `add_text_features()`: adds text-based features 
     - `aggregate_data()`: adds aggregation-based features
-    - `split_features()`: splits features nested in a single column
+    - `encode_factors()`: performs label or dummy encoding on partitioned data
 - Data processing:
-    - `find_constant_features()`: finds features with a single unique value
+    - `split_nested_features()`: splits features nested in a single column
     - `print_factor_levels()`: prints levels of categorical features
-    - `label_encoding()`: performs label encoding on partitioned data
-- Working with missings:
-    - `print_missings()`: counts missing values and prints the results
     - `fill_missings()`: replaces missings with specific values
-- Version control:
+    - `print_missings()`: counts missing values and prints the results
+    - `find_constant_features()`: finds features with a single unique value
+- Import and versioning:
+    - `read_csv_with_json()`: reads CSV with columns in JSON format
     - `save_csv_version()`: saves CSV with an automatically assigned version number to prevent overwriting
 
 

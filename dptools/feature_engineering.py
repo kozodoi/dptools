@@ -195,30 +195,38 @@ def add_text_features(df,
 
 ###############################
 #                             
-#     SPLIT NESTED FEATURES
+#        AGGRGEATE DATA       
 #                             
 ###############################
 
 import pandas as pd
 
-def split_features(df, 
-                   split_vars, 
-                   sep,
-                   drop = True):
+def aggregate_data(df, 
+                   group_var, 
+                   num_stats = ['mean', 'sum'], 
+                   fac_stats = ['count', 'mode'],
+                   factors = None, 
+                   var_label = None, 
+                   sd_zeros = False):
     '''
-    Splits a nested string column into multiple features using a specified 
-    separator and appends the creates features to the data frame.
+    Aggregates the data by a certain categorical feature. Continuous features 
+    are aggregated by computing summary statistcs by the grouping feature. 
+    Categorical features are aggregated by computing the most frequent values
+    and number of unique value by the grouping feature.
 
     --------------------
     Arguments:
     - df (pandas DF): dataset
-    - split_vars (list): list of string features to be split
-    - sep (str): separator to split features
-    - drop (bool): whether to drop the original features after split
+    - group_var (str): grouping feature
+    - num_stats (list): list of stats for aggregating numeric features
+    - fac_stats (list): list of stats for aggregating categorical features
+    - factors (list): list of categorical features names
+    - var_label (str): prefix for feature names after aggregation
+    - sd_zeros (bool): whether to replace NA with 0 for standard deviation
 
     --------------------
-    Returns:
-    - pandas DF with new features
+    Returns
+    - aggregated pandas DF
 
     --------------------
     Examples:
@@ -230,38 +238,137 @@ def split_features(df,
     # create data frame
     data = {'age': [27, np.nan, 30, 25, np.nan], 
         'height': [170, 168, 173, 177, 165], 
-        'income': ['high,100', 'medium,50', 'low,25', 'low,28', 'no income,0']}
+        'gender': ['female', 'male', np.nan, 'male', 'female'],
+        'income': ['high', 'medium', 'low', 'low', 'no income']}
     df = pd.DataFrame(data)
 
-    # split nested features
-    from dptools import split_features
-    df_new = split_features(df, split_vars = 'income', sep = ',')
+    # aggregate the data
+    from dptools import aggregate_data
+    df_new = aggregate_data(df, group_var = 'gender', num_stats = ['min', 'max'], fac_stats = 'mode')   
+
     '''
+    
+    ##### SEPARATE FEATURES
+  
+    # display info
+    print('- Preparing the dataset...')
 
-    # store no. features
-    n_feats = df.shape[1]
-
-    # convert to list
-    if not isinstance(split_vars, list):
-        split_vars = [split_vars]
-
-    # feature engineering loop
-    for split_var in split_vars:
+    # find factors
+    if factors == None:
+        df_factors = [f for f in df.columns if df[f].dtype == 'object']
+        factors    = [f for f in df_factors if f != group_var]
+    else:
+        df_factors = factors
+        df_factors.append(group_var)
         
-        # count maximum values
-        max_values = int(df[split_var].str.count(sep).max() + 1)
-        new_vars = [split_var + '_' + str(val) for val in range(max_values)]
+    # partition subsets
+    if type(group_var) == str:
+        num_df = df[[group_var] + list(set(df.columns) - set(df_factors))]
+        fac_df = df[df_factors]
+    else:
+        num_df = df[group_var + list(set(df.columns) - set(df_factors))]
+        fac_df = df[df_factors] 
+    
+    # display info
+    n_facs = fac_df.shape[1] - 1
+    n_nums = num_df.shape[1] - 1
+    print('- Extracted %.0f factors and %.0f numerics...' % (n_facs, n_nums))
+    
+
+    ##### AGGREGATION
+ 
+    # aggregate numerics
+    if n_nums > 0:
+        print('- Aggregating numeric features...')
+        num_df = num_df.groupby([group_var]).agg(num_stats)
+        num_df.columns = ['_'.join(col).strip() for col in num_df.columns.values]
+        num_df = num_df.sort_index()
+
+    # aggregate factors
+    if n_facs > 0:
+        print('- Aggregating factor features...')
+        if (fac_stats == ['count', 'mode']) or (fac_stats == ['mode', 'count']):
+            fac_df = fac_df.groupby([group_var]).agg([('count'), ('mode', lambda x: pd.Series.mode(x)[0])])
+        if (fac_stats == 'count') or (fac_stats == ['count']):
+            fac_df = fac_df.groupby([group_var]).agg([('count')])
+        if (fac_stats == 'mode') or (fac_stats == ['mode']):
+            fac_df = fac_df.groupby([group_var]).agg([('mode', lambda x: pd.Series.mode(x)[0])])
+        fac_df.columns = ['_'.join(col).strip() for col in fac_df.columns.values]
+        fac_df = fac_df.sort_index()           
+
+
+    ##### MERGER
+
+    # merge numerics and factors
+    if ((n_facs > 0) & (n_nums > 0)):
+        agg_df = pd.concat([num_df, fac_df], axis = 1)
+    
+    # use factors only
+    if ((n_facs > 0) & (n_nums == 0)):
+        agg_df = fac_df
         
-        # remove original feature
-        if drop:
-            cols_without_split = [col for col in df.columns if col not in split_var]
-        else:
-            cols_without_split = [col for col in df.columns]
+    # use numerics only
+    if ((n_facs == 0) & (n_nums > 0)):
+        agg_df = num_df
+        
+
+    ##### LAST STEPS
+
+    # update labels
+    if (var_label != None):
+        agg_df.columns = [var_label + '_' + str(col) for col in agg_df.columns]
+    
+    # impute zeros for SD
+    if sd_zeros:
+        stdevs = agg_df.filter(like = '_std').columns
+        for var in stdevs:
+            agg_df[var].fillna(0, inplace = True)
             
-        # split feature
-        df = pd.concat([df[cols_without_split], df[split_var].str.split(sep, expand = True)], axis = 1)
-        df.columns = cols_without_split + new_vars
-        
-    # return results
-    print('Added {} split-based features.'.format(df.shape[1] - n_feats + int(drop) * len(split_vars)))
-    return df
+    # dataset
+    agg_df = agg_df.reset_index()
+    print('- Final dimensions:', agg_df.shape)
+    return agg_df
+
+
+
+###############################
+#                             
+#        ENCODE FACTORS       
+#                             
+###############################
+
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+
+def encode_factors(df_train, df_valid, df_test):
+    '''
+    Performs label encoding of categorical features for the data set partitioned
+    into three samples: training, validation and test. The values that do not
+    appear in the training sample are set to missings.
+
+    --------------------
+    Arguments:
+    - df_train (pandas DF): training sample
+    - df_valid (pandas DF): validation sample
+    - df_test (pandas DF): test sample
+
+    --------------------
+    Returns:
+    - encoded pandas DF with the training sample
+    - encoded pandas DF with the validation sample
+    - encoded pandas DF with the test sample
+    '''
+    
+    # list of factors
+    factors = [f for f in df_train.columns if df_train[f].dtype == 'object' or df_valid[f].dtype == 'object' or df_test[f].dtype == 'object']
+    
+    lbl = LabelEncoder()
+
+    # label encoding
+    for f in factors:        
+        lbl.fit(list(df_train[f].values) + list(df_valid[f].values) + list(df_test[f].values))
+        df_train[f] = lbl.transform(list(df_train[f].values))
+        df_valid[f] = lbl.transform(list(df_valid[f].values))
+        df_test[f]  = lbl.transform(list(df_test[f].values))
+
+    return df_train, df_valid, df_test
