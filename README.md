@@ -133,6 +133,7 @@ feats = find_correlated_features(df, cutoff = 0.4, method = 'spearman')
 feats
 ```
 > Found 1 correlated features.
+
 > ['age']
 
 ### Data versioning
