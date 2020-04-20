@@ -85,7 +85,7 @@ df = pd.DataFrame(data)
 ```py
 # aggregating the data
 from dptools import aggregate_data
-df_new = aggregate_data(df, group_var = 'gender', num_stats = ['min', 'max'], fac_stats = 'mode')   
+df_new = aggregate_data(df, group_var = 'gender', num_stats = ['mean', 'max'], fac_stats = 'mode')   
 ```
 | gender | age_mean | age_max | height_mean | height_max | income_mode |
 |---:| ---:| ---:| ---:| ---:| ---:|    
