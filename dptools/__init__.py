@@ -4,6 +4,7 @@ from .feature_engineering import aggregate_data
 from .feature_engineering import encode_factors
 
 from .data_cleaning import find_constant_features
+from .data_cleaning import find_correlated_features
 
 from .data_processing import split_nested_features
 from .data_processing import print_missings
