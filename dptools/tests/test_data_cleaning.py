@@ -18,4 +18,4 @@ def test_find_constant_features_0():
         'height': [170, 168, 173, 177, 165], 
         'gender': ['male', 'female', 'female', 'female', 'female']}
     df = pd.DataFrame(data)
-    assert find_constant_features(df) == []
+    assert find_constant_features(df) == None
