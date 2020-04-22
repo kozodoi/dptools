@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
+import dptools
 from dptools import find_constant_features
 
 def test_find_constant_features_1():
