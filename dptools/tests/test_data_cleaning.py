@@ -2,8 +2,8 @@ import numpy as np
 import pandas as pd
 import pytest
 
-import dptools
-from dptools import find_constant_features
+from .data_cleaning import find_constant_features
+from .data_cleaning import find_correlated_features
 
 def test_find_constant_features_1():
     data = {'age': [27, np.nan, 30, 25, np.nan], 
