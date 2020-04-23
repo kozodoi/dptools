@@ -28,7 +28,7 @@ def test_aggregate_data_8():
                         group_var = 'gender', 
                         num_stats = ['min', 'mean', 'max'], 
                         fac_stats = ['mode', 'count'])   
-    assert df.shape[1] == 8
+    assert df.shape[1] == 9
 
 def test_add_text_features_9():
     data = {'age': [27, np.nan, 30, 25, np.nan], 
