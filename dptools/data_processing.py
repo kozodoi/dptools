@@ -62,7 +62,13 @@ def print_missings(df):
 import numpy as np
 import pandas as pd
 
-def fill_missings(df, to_na_cols, to_0_cols, to_true_cols, to_false_cols):
+def fill_missings(df, 
+                  to_unknown_cols = [], 
+                  to_0_cols = [], 
+                  to_mean_cols = [],
+                  to_true_cols = [], 
+                  to_false_cols = [],
+                  inplace = False):
     '''
     Replaces NA in the dataset with specific values.
     
@@ -70,22 +76,42 @@ def fill_missings(df, to_na_cols, to_0_cols, to_true_cols, to_false_cols):
     Arguments:
     - df (pandas DF): dataset
     - to_0_cols (list): list of features where NA => 0
-    - to_na_cols (list): list of features where NA => 'unknown'
+    - to_mean_cols (list): list of features where NA => mean value
+    - to_unknown_cols (list): list of features where NA => 'unknown'
     - to_true_cols (list): list of features where NA => True
     - to_false_cols (list): list of features where NA => False
+    - inplace (bool): whether to add features in place or return a modified data set
 
     --------------------
     Returns
     - pandas DF with treated features
     '''
-    
+    # store original data
+    if inplace:
+        df_original = df.copy()
+
     # fill missings
-    df[to_na_cols]    = df[to_na_cols].fillna('Unknown')
-    df[to_0_cols]     = df[to_0_cols].fillna(0)
-    df[to_true_cols]  = df[to_true_cols].fillna(True)
-    df[to_false_cols] = df[to_false_cols].fillna(False)
+    if len(to_unknown_cols) > 0:
+        df[to_unknown_cols] = df[to_unknown_cols].fillna('Unknown')
+
+    if len(to_0_cols) > 0:
+        df[to_0_cols] = df[to_0_cols].fillna(0)
+
+    if len(to_mean_cols) > 0:
+        for var in to_mean_cols:
+            df[var] = df[var].fillna(df[var].mean())
+
+    if len(to_true_cols) > 0:
+        df[to_true_cols] = df[to_true_cols].fillna(True)
+
+    if len(to_false_cols) > 0:
+        df[to_false_cols] = df[to_false_cols].fillna(False)
        
-    return df
+    # return results
+    if inplace == False:
+        df_new = df.copy()
+        df     = df_original.copy()
+        return df_new
 
 
 
@@ -100,7 +126,8 @@ import pandas as pd
 def split_nested_features(df, 
                           split_vars, 
                           sep,
-                          drop = True):
+                          drop = True,
+                          inplace = False):
     '''
     Splits a nested string column into multiple features using a specified 
     separator and appends the creates features to the data frame.
@@ -111,6 +138,7 @@ def split_nested_features(df,
     - split_vars (list): list of string features to be split
     - sep (str): separator to split features
     - drop (bool): whether to drop the original features after split
+    - inplace (bool): whether to add features in place or return a modified data set
 
     --------------------
     Returns:
@@ -133,6 +161,9 @@ def split_nested_features(df,
     from dptools import split_nested_features
     df_new = split_nested_features(df, split_vars = 'income', sep = ',')
     '''
+    # store original data
+    if inplace:
+        df_original = df.copy()
 
     # store no. features
     n_feats = df.shape[1]
@@ -160,7 +191,10 @@ def split_nested_features(df,
         
     # return results
     print('Added {} split-based features.'.format(df.shape[1] - n_feats + int(drop) * len(split_vars)))
-    return df
+    if inplace == False:
+        df_new = df.copy()
+        df     = df_original.copy()
+        return df_new
 
 
 
