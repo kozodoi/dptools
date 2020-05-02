@@ -206,7 +206,7 @@ def add_text_features(df,
         
     # return results
     print('Added {} text-based features.'.format(df.shape[1] - n_feats + int(drop) * len(text_vars)))
-        if inplace == False:
+    if inplace == False:
         df_new = df.copy()
         df     = df_original.copy()
         return df_new
