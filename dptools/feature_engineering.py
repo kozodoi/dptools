@@ -44,7 +44,7 @@ def add_date_features(df,
 
     '''
     # store original data
-    if inplace:
+    if inplace == False:
         df_original = df.copy()
     
     # store no. features
@@ -153,7 +153,7 @@ def add_text_features(df,
     '''
 
     # store original data
-    if inplace:
+    if inplace == False:
         df_original = df.copy()
 
     # store no. features
@@ -391,7 +391,7 @@ def encode_factors(df, method = 'label', inplace = False):
     df_enc = encode_factors(df, method = 'label')
     '''
     # store original data
-    if inplace:
+    if inplace == False:
         df_original = df.copy()
     
     # label encoding

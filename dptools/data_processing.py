@@ -87,7 +87,7 @@ def fill_missings(df,
     - pandas DF with treated features
     '''
     # store original data
-    if inplace:
+    if inplace == False:
         df_original = df.copy()
 
     # fill missings
@@ -162,7 +162,7 @@ def split_nested_features(df,
     df_new = split_nested_features(df, split_vars = 'income', sep = ',')
     '''
     # store original data
-    if inplace:
+    if inplace == False:
         df_original = df.copy()
 
     # store no. features
