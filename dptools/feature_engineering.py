@@ -107,6 +107,7 @@ def add_text_features(df,
                       tf_idf_feats = 5, 
                       common_words = 0,
                       rare_words = 0,
+                      ngram_range = (1, 1),
                       drop = True):
     '''
     Adds basic text-based features including word count, character count and 
@@ -119,6 +120,7 @@ def add_text_features(df,
     - tf_idf_feats (int): number of TF-IDF based features
     - common_words (int): number of the most common words to remove for TF-IDF
     - rare_words (int): number of the most rare words to remove for TF-IDF
+    - ngram_range (int, int): range of n-grams for TF-IDF based features
     - drop (bool): whether to drop the original textual features
 
     --------------------
@@ -182,7 +184,7 @@ def add_text_features(df,
                                  norm         = 'l2', 
                                  analyzer     = 'word', 
                                  stop_words   = 'english', 
-                                 ngram_range  = (1, 1))
+                                 ngram_range  = ngram_range)
 
         # compute TF-IDF
         vals = tfidf.fit_transform(df_new[text_var])
