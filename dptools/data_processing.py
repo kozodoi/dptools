@@ -85,25 +85,28 @@ def fill_missings(df,
     - pandas DF with treated features
     '''
 
+    # copy df
+    df_new = df.copy()
+
     # fill missings
     if len(to_unknown_cols) > 0:
-        df[to_unknown_cols] = df[to_unknown_cols].fillna('Unknown')
+        df_new[to_unknown_cols] = df_new[to_unknown_cols].fillna('Unknown')
 
     if len(to_0_cols) > 0:
-        df[to_0_cols] = df[to_0_cols].fillna(0)
+        df_new[to_0_cols] = df_new[to_0_cols].fillna(0)
 
     if len(to_mean_cols) > 0:
         for var in to_mean_cols:
-            df[var] = df[var].fillna(df[var].mean())
+            df_new[var] = df_new[var].fillna(df_new[var].mean())
 
     if len(to_true_cols) > 0:
-        df[to_true_cols] = df[to_true_cols].fillna(True)
+        df_new[to_true_cols] = df_new[to_true_cols].fillna(True)
 
     if len(to_false_cols) > 0:
-        df[to_false_cols] = df[to_false_cols].fillna(False)
+        df_new[to_false_cols] = df_new[to_false_cols].fillna(False)
        
     # return results
-    return df
+    return df_new
 
 
 
@@ -152,8 +155,11 @@ def split_nested_features(df,
     df_new = split_nested_features(df, split_vars = 'income', sep = ',')
     '''
 
+    # copy df
+    df_new = df.copy()
+
     # store no. features
-    n_feats = df.shape[1]
+    n_feats = df_new.shape[1]
 
     # convert to list
     if not isinstance(split_vars, list):
@@ -163,22 +169,22 @@ def split_nested_features(df,
     for split_var in split_vars:
         
         # count maximum values
-        max_values = int(df[split_var].str.count(sep).max() + 1)
+        max_values = int(df_new[split_var].str.count(sep).max() + 1)
         new_vars = [split_var + '_' + str(val) for val in range(max_values)]
         
         # remove original feature
         if drop:
-            cols_without_split = [col for col in df.columns if col not in split_var]
+            cols_without_split = [col for col in df_new.columns if col not in split_var]
         else:
-            cols_without_split = [col for col in df.columns]
+            cols_without_split = [col for col in df_new.columns]
             
         # split feature
-        df = pd.concat([df[cols_without_split], df[split_var].str.split(sep, expand = True)], axis = 1)
-        df.columns = cols_without_split + new_vars
+        df_new = pd.concat([df_new[cols_without_split], df_new[split_var].str.split(sep, expand = True)], axis = 1)
+        df_new.columns = cols_without_split + new_vars
         
     # return results
-    print('Added {} split-based features.'.format(df.shape[1] - n_feats + int(drop) * len(split_vars)))
-    return df
+    print('Added {} split-based features.'.format(df_new.shape[1] - n_feats + int(drop) * len(split_vars)))
+    return df_new
 
 
 

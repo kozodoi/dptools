@@ -11,7 +11,7 @@ import re
 def add_date_features(df, 
                       date_vars, 
                       drop = True, 
-                      time = False:
+                      time = False):
     '''
     Adds basic date-based features based to the data frame.
 
@@ -41,9 +41,11 @@ def add_date_features(df,
     df_new = add_date_features(df, date_vars = 'date_of_birth')
 
     '''
+    # copy df
+    df_new = df.copy()
     
     # store no. features
-    n_feats = df.shape[1]
+    n_feats = df_new.shape[1]
 
     # convert to list
     if not isinstance(date_vars, list):
@@ -52,14 +54,14 @@ def add_date_features(df,
     # feature engineering loop
     for date_var in date_vars:
 
-        var = df[date_var]
+        var = df_new[date_var]
         var_dtype = var.dtype
         
         if isinstance(var_dtype, pd.core.dtypes.dtypes.DatetimeTZDtype):
             var_dtype = np.datetime64
 
         if not np.issubdtype(var_dtype, np.datetime64):
-            df[date_var] = var = pd.to_datetime(var, infer_datetime_format = True)
+            df_new[date_var] = var = pd.to_datetime(var, infer_datetime_format = True)
             
         targ_pre = re.sub('[Dd]ate$', '', date_var)
 
@@ -76,17 +78,17 @@ def add_date_features(df,
             
         # compute features
         for att in attributes: 
-            df[targ_pre + '_' + att.lower()] = getattr(var.dt, att)
+            df_new[targ_pre + '_' + att.lower()] = getattr(var.dt, att)
 
-        df[targ_pre + '_elapsed'] = var.astype(np.int64) // 10 ** 9
+        df_new[targ_pre + '_elapsed'] = var.astype(np.int64) // 10 ** 9
         
         # remove original feature
         if drop: 
-            df.drop(date_var, axis = 1, inplace = True)
+            df_new.drop(date_var, axis = 1, inplace = True)
 
     # return results
-    print('Added {} date-based features.'.format(df.shape[1] - n_feats + int(drop) * len(date_vars)))
-    return df
+    print('Added {} date-based features.'.format(df_new.shape[1] - n_feats + int(drop) * len(date_vars)))
+    return df_new
 
 
 
@@ -105,7 +107,7 @@ def add_text_features(df,
                       tf_idf_feats = 5, 
                       common_words = 0,
                       rare_words = 0,
-                      drop = True:
+                      drop = True):
     '''
     Adds basic text-based features including word count, character count and 
     TF-IDF based features to the data frame.
@@ -141,9 +143,11 @@ def add_text_features(df,
     from dptools import add_text_features
     df_new = add_text_features(df, text_vars = ['income', 'gender'])
     '''
+    # copy df
+    df_new = df.copy()
 
     # store no. features
-    n_feats = df.shape[1]
+    n_feats = df_new.shape[1]
 
     # convert to list
     if not isinstance(text_vars, list):
@@ -153,24 +157,24 @@ def add_text_features(df,
     for text_var in text_vars:
 
         # replace NA with empty string
-        df[text_var].fillna('', inplace = True)
+        df_new[text_var].fillna('', inplace = True)
 
         # remove common and rare words
-        freq = pd.Series(' '.join(df[text_var]).split()).value_counts()[:common_words]
-        freq = pd.Series(' '.join(df[text_var]).split()).value_counts()[-rare_words:]
+        freq = pd.Series(' '.join(df_new[text_var]).split()).value_counts()[:common_words]
+        freq = pd.Series(' '.join(df_new[text_var]).split()).value_counts()[-rare_words:]
 
         # convert to lowercase 
-        df[text_var] = df[text_var].apply(lambda x: ' '.join(x.lower() for x in x.split())) 
+        df_new[text_var] = df_new[text_var].apply(lambda x: ' '.join(x.lower() for x in x.split())) 
 
         # remove punctuation
-        df[text_var] = df[text_var].str.replace('[^\w\s]','')         
+        df_new[text_var] = df_new[text_var].str.replace('[^\w\s]','')         
 
         # word count
-        df[text_var + '_word_count'] = df[text_var].apply(lambda x: len(str(x).split(' ')))
-        df[text_var + '_word_count'][df[text_var] == ''] = 0
+        df_new[text_var + '_word_count'] = df_new[text_var].apply(lambda x: len(str(x).split(' ')))
+        df_new[text_var + '_word_count'][df_new[text_var] == ''] = 0
 
         # character count
-        df[text_var + '_char_count'] = df[text_var].str.len().fillna(0).astype('int64')
+        df_new[text_var + '_char_count'] = df_new[text_var].str.len().fillna(0).astype('int64')
 
         # import vectorizer
         tfidf  = TfidfVectorizer(max_features = tf_idf_feats, 
@@ -181,18 +185,18 @@ def add_text_features(df,
                                  ngram_range  = (1, 1))
 
         # compute TF-IDF
-        vals = tfidf.fit_transform(df[text_var])
+        vals = tfidf.fit_transform(df_new[text_var])
         vals = pd.DataFrame.sparse.from_spmatrix(vals)
         vals.columns = [text_var + '_tfidf_' + str(p) for p in vals.columns]
-        df = pd.concat([df, vals], axis = 1)
+        df_new = pd.concat([df_new, vals], axis = 1)
 
         # remove original feature
         if drop:
-            df.drop(text_var, axis = 1, inplace = True)
+            df_new.drop(text_var, axis = 1, inplace = True)
         
     # return results
-    print('Added {} text-based features.'.format(df.shape[1] - n_feats + int(drop) * len(text_vars)))
-    return df
+    print('Added {} text-based features.'.format(df_new.shape[1] - n_feats + int(drop) * len(text_vars)))
+    return df_new
 
 
 
@@ -372,16 +376,19 @@ def encode_factors(df, method = 'label'):
     from dptools import encode_factors
     df_enc = encode_factors(df, method = 'label')
     '''
+
+    # copy df
+    df_new = df.copy()
     
     # label encoding
     if method == 'label':
-        factors = [f for f in df.columns if df[f].dtype == 'object']
+        factors = [f for f in df_new.columns if df_new[f].dtype == 'object']
         for var in factors:
-            df[var], _ = pd.factorize(df[var])
+            df_new[var], _ = pd.factorize(df_new[var])
         
     # dummy encoding
     if method == 'dummy':
-        df = pd.get_dummies(df, drop_first = True)
+        df_new = pd.get_dummies(df_new, drop_first = True)
 
     # return data
-    return df
+    return df_new
