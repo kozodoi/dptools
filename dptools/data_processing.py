@@ -67,8 +67,7 @@ def fill_missings(df,
                   to_0_cols = [], 
                   to_mean_cols = [],
                   to_true_cols = [], 
-                  to_false_cols = [],
-                  inplace = False):
+                  to_false_cols = []):
     '''
     Replaces NA in the dataset with specific values.
     
@@ -80,15 +79,11 @@ def fill_missings(df,
     - to_unknown_cols (list): list of features where NA => 'unknown'
     - to_true_cols (list): list of features where NA => True
     - to_false_cols (list): list of features where NA => False
-    - inplace (bool): whether to add features in place or return a modified data set
 
     --------------------
     Returns
     - pandas DF with treated features
     '''
-    # store original data
-    if inplace == False:
-        df_original = df.copy()
 
     # fill missings
     if len(to_unknown_cols) > 0:
@@ -108,10 +103,7 @@ def fill_missings(df,
         df[to_false_cols] = df[to_false_cols].fillna(False)
        
     # return results
-    if inplace == False:
-        df_new = df.copy()
-        df     = df_original.copy()
-        return df_new
+    return df
 
 
 
@@ -126,8 +118,7 @@ import pandas as pd
 def split_nested_features(df, 
                           split_vars, 
                           sep,
-                          drop = True,
-                          inplace = False):
+                          drop = True:
     '''
     Splits a nested string column into multiple features using a specified 
     separator and appends the creates features to the data frame.
@@ -138,7 +129,6 @@ def split_nested_features(df,
     - split_vars (list): list of string features to be split
     - sep (str): separator to split features
     - drop (bool): whether to drop the original features after split
-    - inplace (bool): whether to add features in place or return a modified data set
 
     --------------------
     Returns:
@@ -161,9 +151,6 @@ def split_nested_features(df,
     from dptools import split_nested_features
     df_new = split_nested_features(df, split_vars = 'income', sep = ',')
     '''
-    # store original data
-    if inplace == False:
-        df_original = df.copy()
 
     # store no. features
     n_feats = df.shape[1]
@@ -191,10 +178,7 @@ def split_nested_features(df,
         
     # return results
     print('Added {} split-based features.'.format(df.shape[1] - n_feats + int(drop) * len(split_vars)))
-    if inplace == False:
-        df_new = df.copy()
-        df     = df_original.copy()
-        return df_new
+    return df
 
 
 

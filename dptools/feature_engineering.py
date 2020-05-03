@@ -11,8 +11,7 @@ import re
 def add_date_features(df, 
                       date_vars, 
                       drop = True, 
-                      time = False, 
-                      inplace = False):
+                      time = False:
     '''
     Adds basic date-based features based to the data frame.
 
@@ -22,7 +21,6 @@ def add_date_features(df,
     - date_var (str): name of the date feature
     - drop (bool): whether to drop the original date feature
     - time (bool): whether to include time-based features
-    - inplace (bool): whether to add features in place or return a modified data set
 
     --------------------
     Returns:
@@ -43,9 +41,6 @@ def add_date_features(df,
     df_new = add_date_features(df, date_vars = 'date_of_birth')
 
     '''
-    # store original data
-    if inplace == False:
-        df_original = df.copy()
     
     # store no. features
     n_feats = df.shape[1]
@@ -91,10 +86,7 @@ def add_date_features(df,
 
     # return results
     print('Added {} date-based features.'.format(df.shape[1] - n_feats + int(drop) * len(date_vars)))
-    if inplace == False:
-        df_new = df.copy()
-        df     = df_original.copy()
-        return df_new
+    return df
 
 
 
@@ -113,8 +105,7 @@ def add_text_features(df,
                       tf_idf_feats = 5, 
                       common_words = 0,
                       rare_words = 0,
-                      drop = True,
-                      inplace = False):
+                      drop = True:
     '''
     Adds basic text-based features including word count, character count and 
     TF-IDF based features to the data frame.
@@ -127,7 +118,6 @@ def add_text_features(df,
     - common_words (int): number of the most common words to remove for TF-IDF
     - rare_words (int): number of the most rare words to remove for TF-IDF
     - drop (bool): whether to drop the original textual features
-    - inplace (bool): whether to add features in place or return a modified data set
 
     --------------------
     Returns:
@@ -151,10 +141,6 @@ def add_text_features(df,
     from dptools import add_text_features
     df_new = add_text_features(df, text_vars = ['income', 'gender'])
     '''
-
-    # store original data
-    if inplace == False:
-        df_original = df.copy()
 
     # store no. features
     n_feats = df.shape[1]
@@ -206,10 +192,7 @@ def add_text_features(df,
         
     # return results
     print('Added {} text-based features.'.format(df.shape[1] - n_feats + int(drop) * len(text_vars)))
-    if inplace == False:
-        df_new = df.copy()
-        df     = df_original.copy()
-        return df_new
+    return df
 
 
 
@@ -359,7 +342,7 @@ def aggregate_data(df,
 
 import pandas as pd
 
-def encode_factors(df, method = 'label', inplace = False):
+def encode_factors(df, method = 'label'):
     '''
     Performs encoding of categorical features using label or dummy encoding.
 
@@ -367,7 +350,6 @@ def encode_factors(df, method = 'label', inplace = False):
     Arguments:
     - df (pandas DF): pandas DF
     - method (str): encoding method ('label' or 'dummy')
-    - inplace (bool): whether to add features in place or return a modified data set
 
     --------------------
     Returns:
@@ -390,9 +372,6 @@ def encode_factors(df, method = 'label', inplace = False):
     from dptools import encode_factors
     df_enc = encode_factors(df, method = 'label')
     '''
-    # store original data
-    if inplace == False:
-        df_original = df.copy()
     
     # label encoding
     if method == 'label':
@@ -405,7 +384,4 @@ def encode_factors(df, method = 'label', inplace = False):
         df = pd.get_dummies(df, drop_first = True)
 
     # return data
-    if inplace == False:
-        df_new = df.copy()
-        df     = df_original.copy()
-        return df_new
+    return df
