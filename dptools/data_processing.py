@@ -121,7 +121,7 @@ import pandas as pd
 def split_nested_features(df, 
                           split_vars, 
                           sep,
-                          drop = True:
+                          drop = True):
     '''
     Splits a nested string column into multiple features using a specified 
     separator and appends the creates features to the data frame.
