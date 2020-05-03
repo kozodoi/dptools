@@ -53,16 +53,3 @@ def test_add_text_features_10():
                            tf_idf_feats = 2,
                            drop = True)
     assert df.shape[1] == 10
-
-def test_add_text_features_inplace():
-    data = {'age': [27, np.nan, 30, 25, np.nan], 
-        'height': [170, 168, 173, 177, 165], 
-        'gender': ['female', 'male', np.nan, 'male', 'female'],
-        'income': ['high', 'medium', 'low', 'low', 'no income']}
-    df = pd.DataFrame(data)
-    add_text_features(df, 
-                      text_vars = ['income', 'gender'], 
-                      tf_idf_feats = 2,
-                      drop = False,
-                      inplace = True)
-    assert df.shape[1] == 11
