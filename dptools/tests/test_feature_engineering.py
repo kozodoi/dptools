@@ -5,6 +5,8 @@ import pytest
 from dptools import add_date_features
 from dptools import add_text_features
 from dptools import aggregate_data
+from dptools import encode_factors
+
 
 def test_aggregate_data_6():
     data = {'age': [27, np.nan, 30, 25, np.nan], 
