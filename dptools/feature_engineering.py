@@ -348,13 +348,14 @@ def aggregate_data(df,
 
 import pandas as pd
 
-def encode_factors(df, method = 'label'):
+def encode_factors(df, factors = None, method = 'label'):
     '''
     Performs encoding of categorical features using label or dummy encoding.
 
     --------------------
     Arguments:
     - df (pandas DF): pandas DF
+    - factors (str): list of factors; all object features are treated as factors by default
     - method (str): encoding method ('label' or 'dummy')
 
     --------------------
@@ -381,16 +382,19 @@ def encode_factors(df, method = 'label'):
 
     # copy df
     df_new = df.copy()
+
+    # list factors
+    if factors is None:
+        factors = [f for f in df_new.columns if df_new[f].dtype == 'object']
     
     # label encoding
     if method == 'label':
-        factors = [f for f in df_new.columns if df_new[f].dtype == 'object']
         for var in factors:
             df_new[var], _ = pd.factorize(df_new[var])
         
     # dummy encoding
     if method == 'dummy':
-        df_new = pd.get_dummies(df_new, drop_first = True)
+        df_new = pd.get_dummies(df_new, columns = factors, drop_first = False)
 
     # return data
     return df_new
