@@ -386,6 +386,10 @@ def encode_factors(df, factors = None, method = 'label'):
     # list factors
     if factors is None:
         factors = [f for f in df_new.columns if df_new[f].dtype == 'object']
+
+    # convert to list
+    if not isinstance(factors, list):
+        factors = [factors]
     
     # label encoding
     if method == 'label':
