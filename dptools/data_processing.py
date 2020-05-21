@@ -90,7 +90,7 @@ def fill_missings(df,
 
     # fill missings
     if len(to_unknown_cols) > 0:
-        df_new[to_unknown_cols] = df_new[to_unknown_cols].fillna('Unknown')
+        df_new[to_unknown_cols] = df_new[to_unknown_cols].fillna('unknown')
 
     if len(to_0_cols) > 0:
         df_new[to_0_cols] = df_new[to_0_cols].fillna(0)
