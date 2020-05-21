@@ -31,7 +31,7 @@ def test_fill_missings_0():
     df = fill_missings(df, to_0_cols = 'age')
     assert df['age'][4] == 0
 
-    def test_fill_missings_unknown():
+def test_fill_missings_unknown():
     data = {'age': [27, np.nan, 30, 25, np.nan], 
         'height': [170, 168, 173, 177, 165], 
         'income': ['high', np.nan, 'low', 'low', 'no_income']}
