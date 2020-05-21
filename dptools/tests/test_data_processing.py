@@ -22,3 +22,19 @@ def test_split_nested_features_5():
     df = pd.DataFrame(data)
     df = split_nested_features(df, split_vars = 'income', sep = ' ', drop = False)
     assert df.shape[1] == 5
+
+def test_fill_missings_0():
+    data = {'age': [27, np.nan, 30, 25, np.nan], 
+        'height': [170, 168, 173, 177, 165], 
+        'income': ['high', 'medium', 'low', 'low', 'no_income']}
+    df = pd.DataFrame(data)
+    df = fill_missings(df, to_0_cols = 'age')
+    assert df['age'][4] == 0
+
+    def test_fill_missings_unknown():
+    data = {'age': [27, np.nan, 30, 25, np.nan], 
+        'height': [170, 168, 173, 177, 165], 
+        'income': ['high', np.nan, 'low', 'low', 'no_income']}
+    df = pd.DataFrame(data)
+    df = fill_missings(df, to_0_cols = 'age', to_unknown_cols = 'income')
+    assert df['income'][1] == 'unknown'
