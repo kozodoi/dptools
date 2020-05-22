@@ -13,13 +13,13 @@
 
 ## Overview
 
-The `dptools` python package provides helper functions to simplify common data processing tasks in a data science pipeline, including feature engineering, data aggregation, working with missing values and more.
+The `dptools` Python package provides helper functions to simplify common data processing tasks in a data science pipeline, including feature engineering, data aggregation, working with missing values and more.
 
 The package currently encompasses the following functions:
 - Feature engineering:
-    - `add_date_features()`: add date-based features
-    - `add_text_features()`: add text-based features 
-    - `aggregate_data()`: aggreagate data and adds aggregation-based features
+    - `add_date_features()`: create date and time-based features 
+    - `add_text_features()`: create text-based features (including counts and TF-IDF)
+    - `aggregate_data()`: aggreagate data and create features based on aggregated statistics
     - `encode_factors()`: perform label or dummy encoding of categorical features
 - Data processing:
     - `split_nested_features()`: split features nested in a single column
@@ -27,11 +27,11 @@ The package currently encompasses the following functions:
     - `print_missings()`: print information on features with missing values
     - `print_factor_levels()`: print levels of categorical features
 - Data cleaning:
-    - `find_correlated_features()`: find features with a high pairwise correlation
-    - `find_constant_features()`: find features with a single unique value
+    - `find_correlated_features()`: identify features with a high pairwise correlation
+    - `find_constant_features()`: identify features with a single unique value
 - Import and versioning:
-    - `read_csv_with_json()`: read CSV with columns in JSON format
-    - `save_csv_version()`: save CSV with an automatically assigned version number to prevent overwriting
+    - `read_csv_with_json()`: read CSV where some columns are in JSON format
+    - `save_csv_version()`: save CSV with an automatically assigned version to prevent overwriting
     
 
 ## Installation
@@ -54,7 +54,7 @@ from dptools import *
 
 ## Examples
 
-This section contains a few examples of using functions from `dptools` for different data preprocessing tasks. Please refer to function docstring documentation for further examples.
+This section contains a few examples of using functions from `dptools` for different data preprocessing tasks. Please refer to the docstring documentation in the implemented functions for further examples.
 
 
 ### Creating a toy data set
