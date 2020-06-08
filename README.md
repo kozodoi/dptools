@@ -36,7 +36,7 @@ The package currently encompasses the following functions:
 
 ## Installation
 
-The latest stable release can be installed from PyPI:
+The latest stable release of `dptools` can be installed from PyPI:
 ```
 pip install dptools
 ```
