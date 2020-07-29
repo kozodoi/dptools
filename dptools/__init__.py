@@ -8,6 +8,7 @@ from .data_cleaning import find_correlated_features
 
 from .data_processing import split_nested_features
 from .data_processing import print_missings
+from .data_processing import correct_colnames
 from .data_processing import fill_missings
 from .data_processing import print_factor_levels
 
