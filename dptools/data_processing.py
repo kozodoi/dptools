@@ -244,3 +244,67 @@ def print_factor_levels(df, top = 5):
             print('')
     else:
         print('Found no categorical features.')
+
+
+
+###############################
+#                             
+#      CORRECT COLUMN NAMES
+#                             
+###############################
+
+import pandas as pd
+import re
+
+def correct_colnames(df):
+    '''
+    Corrects column names to avoid modeling errors:
+    - drops foreign symbols
+    - ensures that column names are unique
+    
+    --------------------
+    Arguments:
+    - df (pandas DF): dataset
+
+    --------------------
+    Returns
+    - pandas DF with corrected column names
+
+    --------------------
+    Examples:
+
+    # import dependecies
+    import pandas as pd
+    import numpy as np
+
+    # create data frame
+    data = {'age': [27, np.nan, 30, 25, np.nan], 
+        'height': [170, 168, 173, 177, 165], 
+        'height': ['female', 'male', np.nan, 'male', 'female'],
+        'income': ['high', 'medium', 'low', 'low', 'no income']}
+    df = pd.DataFrame(data)
+    df.columns = ['age', 'height', 'height', 'incöme']
+
+    # correct column names
+    from dptools import correct_colnames
+    df_new = correct_colnames(df)
+    '''
+
+    # drop foreign symbols
+    df_new = df.rename(columns = lambda x: re.sub('[^A-Za-z0-9_]+', '', x))
+
+    # ensure that all colnames are unique
+    def uniquify(df_columns):
+        seen = set()
+        for item in df_columns:
+            fudge = 1
+            newitem = item
+            while newitem in seen:
+                fudge += 1
+                newitem = "{}_{}".format(item, fudge)
+            yield newitem
+            seen.add(newitem)
+    df_new.columns = uniquify(df_new)
+
+    # return results
+    return df_new
