@@ -24,6 +24,7 @@ The package currently encompasses the following functions:
 - Data processing:
     - `split_nested_features()`: split features nested in a single column
     - `fill_missings()`: replace missings with specific values
+    - `correct_colnames()`: correct column names to be unique and remove foreign symbols 
     - `print_missings()`: print information on features with missing values
     - `print_factor_levels()`: print levels of categorical features
 - Data cleaning:
