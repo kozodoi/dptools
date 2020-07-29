@@ -39,8 +39,8 @@ def add_date_features(df,
     # add date features
     from dptools import add_date_features
     df_new = add_date_features(df, date_vars = 'date_of_birth')
-
     '''
+    
     # copy df
     df_new = df.copy()
     
