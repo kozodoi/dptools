@@ -7,7 +7,6 @@ from dptools import add_text_features
 from dptools import aggregate_data
 from dptools import encode_factors
 
-
 def test_aggregate_data_6():
     data = {'age': [27, np.nan, 30, 25, np.nan], 
         'height': [170, 168, 173, 177, 165], 
@@ -55,6 +54,15 @@ def test_add_text_features_10():
                            tf_idf_feats = 2,
                            drop = True)
     assert df.shape[1] == 10
+
+def test_add_date_features_15():
+    data = {'age': [27, np.nan, 30], 
+        'height': [170, 168, 173], 
+        'gender': ['female', 'male', np.nan],
+        'date_of_birth': [np.datetime64('1993-02-10'), np.nan, np.datetime64('1990-04-08')]}
+    df = pd.DataFrame(data)
+    df = add_date_features(df, date_vars = 'date_of_birth', time = False)
+    assert df.shape[1] == 15
 
 def test_encode_factors_label():
     data = {'age': [27, np.nan, 30, 25, np.nan], 
