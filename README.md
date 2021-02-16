@@ -17,14 +17,14 @@ The `dptools` Python package provides helper functions to simplify common data p
 
 The package currently encompasses the following functions:
 - Feature engineering:
-    - `add_date_features()`: create date and time-based features 
+    - `add_date_features()`: create date and time-based features
     - `add_text_features()`: create text-based features (including counts and TF-IDF)
-    - `aggregate_data()`: aggreagate data and create features based on aggregated statistics
+    - `aggregate_data()`: aggregate data and create features based on aggregated statistics
     - `encode_factors()`: perform label or dummy encoding of categorical features
 - Data processing:
     - `split_nested_features()`: split features nested in a single column
     - `fill_missings()`: replace missings with specific values
-    - `correct_colnames()`: correct column names to be unique and remove foreign symbols 
+    - `correct_colnames()`: correct column names to be unique and remove foreign symbols
     - `print_missings()`: print information on features with missing values
     - `print_factor_levels()`: print levels of categorical features
 - Data cleaning:
@@ -33,7 +33,7 @@ The package currently encompasses the following functions:
 - Import and versioning:
     - `read_csv_with_json()`: read CSV where some columns are in JSON format
     - `save_csv_version()`: save CSV with an automatically assigned version to prevent overwriting
-    
+
 
 ## Installation
 
@@ -60,16 +60,16 @@ This section contains a few examples of using functions from `dptools` for diffe
 
 ### Creating a toy data set
 
-First, let us create a toy data frame to demonstarte the package functionality.
+First, let us create a toy data frame to demonstrate the package functionality.
 
 ```py
-# import dependecies
+# import dependencies
 import pandas as pd
 import numpy as np
 
 # create data frame
-data = {'age': [27, np.nan, 30, 25, np.nan], 
-        'height': [170, 168, 173, 177, 165], 
+data = {'age': [27, np.nan, 30, 25, np.nan],
+        'height': [170, 168, 173, 177, 165],
         'gender': ['female', 'male', np.nan, 'male', 'female'],
         'income': ['high', 'medium', 'low', 'low', 'no income']}
 df = pd.DataFrame(data)
@@ -103,12 +103,12 @@ df_new = aggregate_data(df, group_var = 'gender', num_stats = ['mean', 'max'], f
 from dptools import add_text_features
 df_new = add_text_features(df, text_vars = 'income')
 ```
-| age | height | gender | income_word_count | income_char_count |  income_tfidf_0 | ... | income_tfidf_3 | 
+| age | height | gender | income_word_count | income_char_count |  income_tfidf_0 | ... | income_tfidf_3 |
 |---:| ---:| ---:| ---:| ---:| ---:| ---:| ---:|
-| 27.0 | 170 | female | 1 | 4 | 1.0 | ... | 0.0 | 
-| NaN | 168 | male | 1 | 6 | 0.0 | ... | 1.0 | 
-| 30.0 | 173 | NaN | 1 | 3 | 0.0 | ... | 0.0 | 
-| 25.0 | 177 | male | 1 | 3 | 0.0 | ... | 0.0 | 
+| 27.0 | 170 | female | 1 | 4 | 1.0 | ... | 0.0 |
+| NaN | 168 | male | 1 | 6 | 0.0 | ... | 1.0 |
+| 30.0 | 173 | NaN | 1 | 3 | 0.0 | ... | 0.0 |
+| 25.0 | 177 | male | 1 | 3 | 0.0 | ... | 0.0 |
 | NaN | 165 | female | 2 | 9 | 0.0 | ... | 0.0 |
 
 
@@ -119,7 +119,7 @@ df_new = add_text_features(df, text_vars = 'income')
 from dptools import print_missings
 print_missings(df)
 ```
-| | Total | Percent | 
+| | Total | Percent |
 |---:| ---:| ---:|
 | age | 2 | 0.4 |
 | gender | 1 | 0.2 |
@@ -160,4 +160,4 @@ Installation requires Python 3.7+ and the following packages:
 
 ## Feedback
 
-In case you need help on the included data preprocseeing functions or you want to report an issue, please do so at the corresponding [GitHub page](https://github.com/kozodoi/dptools/issues).
+In case you need help on the included data preprocessing functions or you want to report an issue, please do so at the corresponding [GitHub page](https://github.com/kozodoi/dptools/issues).
