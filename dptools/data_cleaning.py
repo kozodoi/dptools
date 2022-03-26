@@ -22,7 +22,7 @@ def find_constant_features(df, dropna = False):
     --------------------
     Examples:
 
-    # import dependecies
+    # import dependencies
     import pandas as pd
     import numpy as np
 
@@ -76,7 +76,7 @@ def find_correlated_features(df, cutoff = 0.9, method = 'pearson'):
     --------------------
     Examples:
 
-    # import dependecies
+    # import dependencies
     import pandas as pd
     import numpy as np
 

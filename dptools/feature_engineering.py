@@ -130,7 +130,7 @@ def add_text_features(df,
     --------------------
     Examples:
 
-    # import dependecies
+    # import dependencies
     import pandas as pd
     import numpy as np
 
@@ -204,7 +204,7 @@ def add_text_features(df,
 
 ###############################
 #                             
-#        AGGRGEATE DATA       
+#       AGGREGATE DATA       
 #                             
 ###############################
 
@@ -214,12 +214,12 @@ def aggregate_data(df,
                    group_var, 
                    num_stats = ['mean', 'sum'], 
                    fac_stats = ['count', 'mode'],
-                   factors = None, 
+                   factors   = None, 
                    var_label = None, 
-                   sd_zeros = False):
+                   sd_zeros  = False):
     '''
     Aggregates the data by a certain categorical feature. Continuous features 
-    are aggregated by computing summary statistcs by the grouping feature. 
+    are aggregated by computing summary statistics by the grouping feature. 
     Categorical features are aggregated by computing the most frequent values
     and number of unique value by the grouping feature.
 
@@ -240,7 +240,7 @@ def aggregate_data(df,
     --------------------
     Examples:
 
-    # import dependecies
+    # import dependencies
     import pandas as pd
     import numpy as np
 
@@ -258,7 +258,7 @@ def aggregate_data(df,
     '''
     
     ##### SEPARATE FEATURES
-  
+
     # display info
     print('- Preparing the dataset...')
 
@@ -285,7 +285,7 @@ def aggregate_data(df,
     
 
     ##### AGGREGATION
- 
+
     # aggregate numerics
     if n_nums > 0:
         print('- Aggregating numeric features...')
@@ -365,7 +365,7 @@ def encode_factors(df, factors = None, method = 'label'):
     --------------------
     Examples:
 
-    # import dependecies
+    # import dependencies
     import pandas as pd
     import numpy as np
 

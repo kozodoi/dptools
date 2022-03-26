@@ -21,7 +21,7 @@ def print_missings(df):
     --------------------
     Examples:
 
-    # import dependecies
+    # import dependencies
     import pandas as pd
     import numpy as np
 
@@ -104,7 +104,7 @@ def fill_missings(df,
 
     if len(to_false_cols) > 0:
         df_new[to_false_cols] = df_new[to_false_cols].fillna(False)
-       
+    
     # return results
     return df_new
 
@@ -140,7 +140,7 @@ def split_nested_features(df,
     --------------------
     Examples:
 
-    # import dependecies
+    # import dependencies
     import pandas as pd
     import numpy as np
 
@@ -212,7 +212,7 @@ def print_factor_levels(df, top = 5):
     --------------------
     Examples:
 
-    # import dependecies
+    # import dependencies
     import pandas as pd
     import numpy as np
 
@@ -273,7 +273,7 @@ def correct_colnames(df):
     --------------------
     Examples:
 
-    # import dependecies
+    # import dependencies
     import pandas as pd
     import numpy as np
 
@@ -283,7 +283,7 @@ def correct_colnames(df):
         'height': ['female', 'male', np.nan, 'male', 'female'],
         'income': ['high', 'medium', 'low', 'low', 'no income']}
     df = pd.DataFrame(data)
-    df.columns = ['age', 'height', 'height', 'incöme']
+    df.columns = ['age', 'height', 'height', 'income']
 
     # correct column names
     from dptools import correct_colnames
@@ -301,7 +301,7 @@ def correct_colnames(df):
             newitem = item
             while newitem in seen:
                 fudge += 1
-                newitem = "{}_{}".format(item, fudge)
+                newitem = '{}_{}'.format(item, fudge)
             yield newitem
             seen.add(newitem)
     df_new.columns = uniquify(df_new)

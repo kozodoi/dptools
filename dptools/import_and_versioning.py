@@ -30,7 +30,7 @@ def save_csv_version(file_path, df, min_version = 1, **args):
     --------------------
     Examples:
     
-    # import dependecies
+    # import dependencies
     import pandas as pd
     import numpy as np
 
