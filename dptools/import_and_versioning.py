@@ -79,6 +79,7 @@ def save_csv_version(file_path, df, min_version = 1, **args):
 
 from pandas.io.json import json_normalize
 import json
+import os
 
 def read_csv_with_json(file_path, json_cols, **args):
     '''
@@ -99,6 +100,10 @@ def read_csv_with_json(file_path, json_cols, **args):
     df = pd.read_csv(file_path, 
                      converters = {column: json.loads for column in json_cols}, 
                      **args)
+    
+    # convert to list
+    if not isinstance(json_cols, list):
+        json_cols = [json_cols]
     
     # extract values
     for column in json_cols:

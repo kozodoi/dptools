@@ -31,9 +31,9 @@ def add_date_features(df,
     
     # create data frame
     data = {'age': [27, np.nan, 30], 
-        'height': [170, 168, 173], 
-        'gender': ['female', 'male', np.nan],
-        'date_of_birth': [np.datetime64('1993-02-10'), np.nan, np.datetime64('1990-04-08')]}
+            'height': [170, 168, 173], 
+            'gender': ['female', 'male', np.nan],
+            'date_of_birth': [np.datetime64('1993-02-10'), np.nan, np.datetime64('1990-04-08')]}
     df = pd.DataFrame(data)
 
     # add date features
@@ -106,9 +106,9 @@ def add_text_features(df,
                       text_vars, 
                       tf_idf_feats = 5, 
                       common_words = 0,
-                      rare_words = 0,
-                      ngram_range = (1, 1),
-                      drop = True):
+                      rare_words   = 0,
+                      ngram_range  = (1, 1),
+                      drop         = True):
     '''
     Adds basic text-based features including word count, character count and 
     TF-IDF based features to the data frame.
@@ -246,9 +246,9 @@ def aggregate_data(df,
 
     # create data frame
     data = {'age': [27, np.nan, 30, 25, np.nan], 
-        'height': [170, 168, 173, 177, 165], 
-        'gender': ['female', 'male', np.nan, 'male', 'female'],
-        'income': ['high', 'medium', 'low', 'low', 'no income']}
+            'height': [170, 168, 173, 177, 165], 
+            'gender': ['female', 'male', np.nan, 'male', 'female'],
+            'income': ['high', 'medium', 'low', 'low', 'no income']}
     df = pd.DataFrame(data)
 
     # aggregate the data
@@ -267,6 +267,8 @@ def aggregate_data(df,
         df_factors = [f for f in df.columns if df[f].dtype == 'object']
         factors    = [f for f in df_factors if f != group_var]
     else:
+        if not isinstance(factors, list):
+            factors = [factors]
         df_factors = factors
         df_factors.append(group_var)
         
