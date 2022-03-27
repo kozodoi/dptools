@@ -28,8 +28,8 @@ def find_constant_features(df, dropna = False):
 
     # create data frame
     data = {'age': [27, np.nan, 30, 25, np.nan], 
-        'height': [170, 168, 173, 177, 165], 
-        'gender': ['female', 'female', 'female', 'female', 'female']}
+            'height': [170, 168, 173, 177, 165], 
+            'gender': ['female', 'female', 'female', 'female', 'female']}
     df = pd.DataFrame(data)
 
     # check constant features

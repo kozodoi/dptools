@@ -27,9 +27,9 @@ def print_missings(df):
 
     # create data frame
     data = {'age': [27, np.nan, 30, 25, np.nan], 
-        'height': [170, 168, 173, 177, 165], 
-        'gender': ['female', 'male', np.nan, 'male', 'female'],
-        'income': ['high', 'medium', 'low', 'low', 'no income']}
+            'height': [170, 168, 173, 177, 165], 
+            'gender': ['female', 'male', np.nan, 'male', 'female'],
+            'income': ['high', 'medium', 'low', 'low', 'no income']}
     df = pd.DataFrame(data)
 
     # count missings
@@ -38,10 +38,10 @@ def print_missings(df):
     '''
 
     # count missing values
-    total = df.isnull().sum().sort_values(ascending = False)
+    total   = df.isnull().sum().sort_values(ascending = False)
     percent = (df.isnull().sum() / df.isnull().count()).sort_values(ascending = False)
-    table = pd.concat([total, percent], axis = 1, keys = ['Total', 'Percent'])
-    table = table[table['Total'] > 0]
+    table   = pd.concat([total, percent], axis = 1, keys = ['Total', 'Percent'])
+    table   = table[table['Total'] > 0]
 
     # return results
     if len(table) > 0:
@@ -64,10 +64,10 @@ import pandas as pd
 
 def fill_missings(df, 
                   to_unknown_cols = [], 
-                  to_0_cols = [], 
-                  to_mean_cols = [],
-                  to_true_cols = [], 
-                  to_false_cols = []):
+                  to_0_cols       = [], 
+                  to_mean_cols    = [],
+                  to_true_cols    = [], 
+                  to_false_cols   = []):
     '''
     Replaces NA in the dataset with specific values.
     
@@ -146,8 +146,8 @@ def split_nested_features(df,
 
     # create data frame
     data = {'age': [27, np.nan, 30, 25, np.nan], 
-        'height': [170, 168, 173, 177, 165], 
-        'income': ['high,100', 'medium,50', 'low,25', 'low,28', 'no income,0']}
+            'height': [170, 168, 173, 177, 165], 
+            'income': ['high,100', 'medium,50', 'low,25', 'low,28', 'no income,0']}
     df = pd.DataFrame(data)
 
     # split nested features
@@ -279,9 +279,9 @@ def correct_colnames(df):
 
     # create data frame
     data = {'age': [27, np.nan, 30, 25, np.nan], 
-        'height': [170, 168, 173, 177, 165], 
-        'height': ['female', 'male', np.nan, 'male', 'female'],
-        'income': ['high', 'medium', 'low', 'low', 'no income']}
+            'height': [170, 168, 173, 177, 165], 
+            'height': ['female', 'male', np.nan, 'male', 'female'],
+            'income': ['high', 'medium', 'low', 'low', 'no income']}
     df = pd.DataFrame(data)
     df.columns = ['age', 'height', 'height', 'income']
 
