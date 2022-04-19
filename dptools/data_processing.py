@@ -9,29 +9,26 @@ import pandas as pd
 def print_missings(df):
     '''
     Counts missing values in a dataframe and prints the results.
-
     --------------------
     Arguments:
     - df (pandas DF): dataset
-
     --------------------
     Returns:
     - pandas DF with missing values
-
     --------------------
     Examples:
-
+    
     # import dependencies
     import pandas as pd
     import numpy as np
-
+    
     # create data frame
     data = {'age': [27, np.nan, 30, 25, np.nan], 
             'height': [170, 168, 173, 177, 165], 
             'gender': ['female', 'male', np.nan, 'male', 'female'],
             'income': ['high', 'medium', 'low', 'low', 'no income']}
     df = pd.DataFrame(data)
-
+    
     # count missings
     from dptools import print_missings
     print_missings(df)
@@ -204,28 +201,26 @@ def print_factor_levels(df, top = 5):
     Arguments:
     - df (pandas DF): dataset
     - top (int): how many most frequent values to display
-
     --------------------
     Returns
     - None
-
     --------------------
     Examples:
-
+    
     # import dependencies
     import pandas as pd
     import numpy as np
-
+    
     # create data frame
-    data = {'age': [27, np.nan, 30, 25, np.nan], 
-        'height': [170, 168, 173, 177, 165], 
-        'gender': ['female', 'male', np.nan, 'male', 'female'],
-        'income': ['high', 'medium', 'low', 'low', 'no income']}
+    data = {'age':    [27, np.nan, 30, 25, np.nan], 
+            'height': [170, 168, 173, 177, 165], 
+            'gender': ['female', 'male', np.nan, 'male', 'female'],
+            'income': ['high', 'medium', 'low', 'low', 'no income']}
     df = pd.DataFrame(data)
-
+    
     # print factor levels
-    from dptools import print_factors
-    print_factors(df, top = 3)
+    from dptools import print_factor_levels
+    print_factor_levels(df, top = 3)
     '''
 
     # find factors
@@ -236,11 +231,13 @@ def print_factor_levels(df, top = 5):
         print('Found {} categorical features.'.format(len(facs)))
         print('')
         for fac in facs:
-            print('-' * 30)
+            print('-' * 50)
             print(fac + ': ' + str(df[fac].nunique()) + ' unique values')
-            print('-' * 30)
-            print(df[fac].value_counts(normalize = True, dropna = False).head(top))
-            print('-' * 30)
+            print('-' * 50)
+            total   = df[fac].value_counts(normalize = False, dropna = False).head(top)
+            percent = df[fac].value_counts(normalize = True,  dropna = False).head(top)
+            tmp     = pd.concat([total, percent], axis = 1, keys = ['Total', 'Percent'])
+            display(tmp)
             print('')
     else:
         print('Found no categorical features.')
